@@ -33,6 +33,19 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+		<dependency>
+		    <groupId>org.projectlombok</groupId>
+		    <artifactId>lombok</artifactId>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-core -->
+		<dependency>
+		    <groupId>org.liquibase</groupId>
+		    <artifactId>liquibase-core</artifactId>
+		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -48,11 +61,69 @@
 
 	<build>
 		<plugins>
+	        
+	        <plugin>
+	           <groupId>org.liquibase</groupId>
+	           <artifactId>liquibase-maven-plugin</artifactId>
+	           <configuration>  
+	           	    <changeLogFile>src/main/resources/db/changelog/db.changelog-master.xml</changeLogFile>
+        			<driver>com.mysql.cj.jdbc.Driver</driver>
+                   	<url>jdbc:mysql://localhost:3306/notificationengine</url>
+                   	<defaultSchemaName>notificationengine</defaultSchemaName>
+                   	<username>root</username>
+                   	<password>root</password>
+                   	<verbose>true</verbose>
+                   	<logging>debug</logging>
+	           </configuration>                
+	           <executions>
+	             <execution>
+	               <phase>process-resources</phase>                                                                  
+	               <goals>
+	               <goal>update</goal>
+	               </goals>
+	             </execution>
+	           </executions>
+	        </plugin>  
+	         
+        
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 		</plugins>
+		<pluginManagement>
+			<plugins>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>org.liquibase</groupId>
+										<artifactId>
+											liquibase-maven-plugin
+										</artifactId>
+										<versionRange>
+											[3.8.7,)
+										</versionRange>
+										<goals>
+											<goal>update</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
+				</plugin>
+			</plugins>
+		</pluginManagement>
 	</build>
 
 </project>
