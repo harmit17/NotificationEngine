@@ -9,14 +9,12 @@ public class AddNotificationContentType implements NotificationContentTypeServic
 
 	@Override
 	public void addNotificationContentType() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
 	public void getNotificationContentType() {
-		// TODO Auto-generated method stub
-
+		
 	}
 
 }
