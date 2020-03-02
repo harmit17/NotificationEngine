@@ -2,7 +2,7 @@ package com.finablr.platform.notification.service.impl;
 
 import com.finablr.platform.notification.service.NotificationTemplateService;
 
-public class AddNotificationTemplateImpl implements NotificationTemplateService{
+public class NotificationTemplateServiceImpl implements NotificationTemplateService{
 
 	@Override
 	public void addNotificationTemplate() {

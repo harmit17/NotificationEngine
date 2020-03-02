@@ -36,7 +36,6 @@ public class NotificationTemplate {
 	@Column(nullable = false)
 	private Instant effectiveForm;
 	
-	@Column(nullable = false)
 	private Instant effectiveTo;
 	
 	@Column(nullable = false)
