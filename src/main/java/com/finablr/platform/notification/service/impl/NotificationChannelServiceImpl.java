@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import com.finablr.platform.notification.service.NotificationChannelService;
 
 @Service
-public class GetNotificationChannel implements NotificationChannelService{
+public class NotificationChannelServiceImpl implements NotificationChannelService{
 
 	@Override
 	public void getAllChannels() {

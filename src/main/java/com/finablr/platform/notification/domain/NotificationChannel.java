@@ -9,7 +9,7 @@ import javax.persistence.Id;
 @Entity(name = "notification_channel")
 public class NotificationChannel {
 
-	@Id @GeneratedValue(strategy = GenerationType.AUTO)
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long channelId;
 	@Column(nullable = false)
 	private String channelName;
