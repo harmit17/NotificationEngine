@@ -68,7 +68,7 @@
 	           <configuration>  
 	           	    <changeLogFile>src/main/resources/db/changelog/db.changelog-master.xml</changeLogFile>
         			<driver>com.mysql.cj.jdbc.Driver</driver>
-                   	<url>jdbc:mysql://localhost:3306/notificationengine</url>
+                   	<url>jdbc:mysql:///localhost:3306/notificationengine</url>
                    	<defaultSchemaName>notificationengine</defaultSchemaName>
                    	<username>root</username>
                    	<password></password>

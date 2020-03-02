@@ -1,5 +1,6 @@
 package com.finablr.platform.notification.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,10 +13,13 @@ public class NotificationContentType {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "ct_id")
 	private Long id;
 
+	@Column(name = "ct_name", nullable = false)
 	private String name;
 
+	@Column(name = "isDisable", nullable = false)
 	private boolean isDisable;
 
 	public Long getId() {
