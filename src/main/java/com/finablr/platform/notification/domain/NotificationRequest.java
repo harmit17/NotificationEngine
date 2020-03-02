@@ -11,9 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
-
 
 @Entity
 @Table(name = "notification_request")
@@ -127,5 +124,7 @@ public class NotificationRequest {
 	public void setNotificationTemplateId(Long notificationTemplateId) {
 		this.notificationTemplateId = notificationTemplateId;
 	}
+	
+	
 
 }
