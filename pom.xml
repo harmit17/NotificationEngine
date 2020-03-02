@@ -34,12 +34,6 @@
 			<scope>runtime</scope>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
-		<dependency>
-		    <groupId>org.projectlombok</groupId>
-		    <artifactId>lombok</artifactId>
-		</dependency>
-		
 		<!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-core -->
 		<dependency>
 		    <groupId>org.liquibase</groupId>
@@ -71,7 +65,7 @@
                    	<url>jdbc:mysql://localhost:3306/notificationengine</url>
                    	<defaultSchemaName>notificationengine</defaultSchemaName>
                    	<username>root</username>
-                   	<password></password>
+                   	<password>root</password>
                    	<verbose>true</verbose>
                    	<logging>debug</logging>
 	           </configuration>                
