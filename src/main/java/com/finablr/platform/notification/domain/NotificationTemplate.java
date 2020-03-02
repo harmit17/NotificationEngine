@@ -33,8 +33,10 @@ public class NotificationTemplate {
 	@Column(precision=1, scale=0,nullable = false)
 	private Integer maxRetry;
 	
+	@Column(nullable = false)
 	private Instant effectiveForm;
 	
+	@Column(nullable = false)
 	private Instant effectiveTo;
 	
 	@Column(nullable = false)
