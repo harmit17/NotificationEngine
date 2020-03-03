@@ -25,9 +25,5 @@ public class NotificationTemplateServiceImpl implements NotificationTemplateServ
 		
 	}
 
-	@Override
-	public List<NotificationTemplate> getAllNotification() {
-		return notificationTemplateRepository.findAll();
-	}
 	
 }
