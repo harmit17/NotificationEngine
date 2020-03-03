@@ -1,6 +1,7 @@
 package com.finablr.platform.notification.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ public class NotificationContentTypeServiceImpl implements NotificationContentTy
 
 	@Autowired
 	public NotificationContentTypeRepository notificationContentTypeRepository;
-	
+
 	@Override
 	public List<NotificationContentType> getAllNotificationContentType() {
 		// TODO Auto-generated method stub
@@ -24,8 +25,12 @@ public class NotificationContentTypeServiceImpl implements NotificationContentTy
 	@Override
 	public NotificationContentType toggleNotificationContentType(Long id) {
 		// TODO Auto-generated method stub
-		
-		return notificationContentTypeRepository.getOne(id);
+		Optional<NotificationContentType> notifiOptional = notificationContentTypeRepository.findById(id);
+		if (notifiOptional.isPresent()) {
+			return notifiOptional.get();
+		}
+		// EXception
+		return null;
 	}
 
 }

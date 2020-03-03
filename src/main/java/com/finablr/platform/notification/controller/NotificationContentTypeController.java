@@ -16,13 +16,10 @@ public class NotificationContentTypeController {
 
 	@Autowired
 	public NotificationContentTypeServiceImpl notificationContentTypeServiceImpl;
-
-	@RequestMapping("/abc")
-	public String abc() {
-		return "hello";
-	}
+	
 	@RequestMapping("/api/v1/notification-content-types")
 	public List<NotificationContentType> getAllNotificationContentType() {
+		System.out.println(notificationContentTypeServiceImpl.getAllNotificationContentType());
 		return notificationContentTypeServiceImpl.getAllNotificationContentType();
 	}
 
