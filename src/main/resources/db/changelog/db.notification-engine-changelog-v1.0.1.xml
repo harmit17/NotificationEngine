@@ -6,10 +6,10 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd
                         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     <!-- Create Initial Tables for Schema -->
-    <changeSet id="notification-engine-v0.0.1-initial_schema"
+    <changeSet id="notification-engine-v0.0.2"
                author="admin">
         <sqlFile dbms="mysql" encoding="utf8" endDelimiter=";"
-                 path="sql/notification-engine-v0.0.2-alter_channel_contenttype_column.sql"
+                 path="sql/notification-engine-v0.0.2.sql"
                  relativeToChangelogFile="true"/>
     </changeSet>
 </databaseChangeLog>

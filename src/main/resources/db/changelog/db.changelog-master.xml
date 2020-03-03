@@ -8,7 +8,7 @@
 	  <include file="db.notification-engine-changelog-v1.0.0-initialschema.xml"
 	  relativeToChangelogFile="true"/>
 	  
-	  <include file="db.notification-engine-changelog-v1.0.1-alter-column-name.xml"
+	  <include file="db.notification-engine-changelog-v1.0.1.xml"
 	  relativeToChangelogFile="true"/>
 	  
 	</databaseChangeLog>
