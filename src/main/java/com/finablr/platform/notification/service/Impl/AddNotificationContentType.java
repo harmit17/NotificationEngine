@@ -1,4 +1,4 @@
-package com.finablr.platform.notification.service.impl;
+package com.finablr.platform.notification.service.Impl;
 
 import org.springframework.stereotype.Service;
 
