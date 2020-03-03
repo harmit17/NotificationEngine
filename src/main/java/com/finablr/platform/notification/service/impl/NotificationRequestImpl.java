@@ -1,16 +1,16 @@
-package com.finablr.platform.notification.service.Impl;
+package com.finablr.platform.notification.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.finablr.platform.notification.Dto.GetNotificationRequestStatusDTO;
 import com.finablr.platform.notification.domain.NotificationRequest;
+import com.finablr.platform.notification.dto.GetNotificationRequestStatusDto;
 import com.finablr.platform.notification.repository.NotificationRequestRepository;
 import com.finablr.platform.notification.service.NotificationRequestService;
 
 @Service
-public class NotificationRequestIMPL implements NotificationRequestService {
+public class NotificationRequestImpl implements NotificationRequestService {
 
 	@Autowired
 	private NotificationRequestRepository notoficationRequestRepo;
@@ -19,9 +19,9 @@ public class NotificationRequestIMPL implements NotificationRequestService {
 	private ModelMapper modelmapper;
 
 	@Override
-	public void addRequest(GetNotificationRequestStatusDTO notificationDto) {
-		GetNotificationRequestStatusDTO getStatus = modelmapper.map(new NotificationRequest(),
-				GetNotificationRequestStatusDTO.class);
+	public void addRequest(GetNotificationRequestStatusDto notificationDto) {
+		GetNotificationRequestStatusDto getStatus = modelmapper.map(new NotificationRequest(),
+				GetNotificationRequestStatusDto.class);
 	}
 
 	@Override

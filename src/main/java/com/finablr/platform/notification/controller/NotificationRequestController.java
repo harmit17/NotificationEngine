@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 >>>>>>> Dto package created
 import org.springframework.web.bind.annotation.RestController;
 
-import com.finablr.platform.notification.Dto.GetNotificationRequestStatusDTO;
 import com.finablr.platform.notification.domain.NotificationRequest;
+import com.finablr.platform.notification.dto.GetNotificationRequestStatusDto;
 import com.finablr.platform.notification.service.NotificationRequestService;
 
 
@@ -27,7 +27,7 @@ public class NotificationRequestController {
 	 * Add notification request controller method
 	 */
 	@PostMapping("/api/v1/notification-requests")
-	public void addNotificationRequest(GetNotificationRequestStatusDTO notificationDto) {
+	public void addNotificationRequest(GetNotificationRequestStatusDto notificationDto) {
 		service.addRequest(notificationDto);
 	}
 

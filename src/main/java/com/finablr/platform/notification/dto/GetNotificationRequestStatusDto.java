@@ -1,6 +1,6 @@
-package com.finablr.platform.notification.Dto;
+package com.finablr.platform.notification.dto;
 
-public class GetNotificationRequestStatusDTO {
+public class GetNotificationRequestStatusDto {
 	private Long id;
 
 	public Long getId() {
