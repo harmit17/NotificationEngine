@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity(name="notification_template")
 public class NotificationTemplate {
@@ -37,13 +39,16 @@ public class NotificationTemplate {
 	@Column(name="effectiveForm",nullable = false)
 	private Instant effectiveFrom;
 	
+	@Column(nullable = false)
 	private Instant effectiveTo;
 	
-	@Column(nullable = false)
-	private Long notificationChannelId;
+	@ManyToOne
+	@JoinColumn(name="notificationChannelId",nullable = true)
+	private NotificationChannel notificationChannel;
 	
-	@Column(nullable = false)
-	private Long notificationContentTypeId;
+	@ManyToOne
+	@JoinColumn(name="notificationContentTypeId",nullable = true)
+	private NotificationContentType notificationContentType;
 
 	
 
@@ -120,21 +125,20 @@ public class NotificationTemplate {
 		this.effectiveTo = effectiveTo;
 	}
 
-	public Long getNotificationChannelId() {
-		return notificationChannelId;
+	public NotificationChannel getNotificationChannel() {
+		return notificationChannel;
 	}
 
-	public void setNotificationChannelId(Long notificationChannelId) {
-		this.notificationChannelId = notificationChannelId;
+	public void setNotificationChannel(NotificationChannel notificationChannel) {
+		this.notificationChannel = notificationChannel;
 	}
 
-	public Long getNotificationContentTypeId() {
-		return notificationContentTypeId;
+	public NotificationContentType getNotificationContentType() {
+		return notificationContentType;
 	}
 
-	public void setNotificationContentTypeId(Long notificationContentTypeId) {
-		this.notificationContentTypeId = notificationContentTypeId;
-	}
-	
+	public void setNotificationContentType(NotificationContentType notificationContentType) {
+		this.notificationContentType = notificationContentType;
+	}	
 	
 }
