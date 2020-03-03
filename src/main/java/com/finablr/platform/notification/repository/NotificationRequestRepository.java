@@ -7,7 +7,9 @@ import com.finablr.platform.notification.domain.NotificationRequest;
 
 @Repository
 public interface NotificationRequestRepository extends JpaRepository<NotificationRequest, Long>{
-	
+
+	//NotificationRequest findOne(Long id);
+
 	
 }
  

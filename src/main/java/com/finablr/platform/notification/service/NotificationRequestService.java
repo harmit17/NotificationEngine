@@ -1,11 +1,12 @@
 package com.finablr.platform.notification.service;
 
+import com.finablr.platform.notification.dto.GetNotificationRequestStatusDto;
 
 public interface NotificationRequestService {
 	
-	void addRequest();
+	void addRequest(GetNotificationRequestStatusDto notificationDto);
 
-	void getStatus();
+	String getStatus(Long id);
 	
 		
 }
