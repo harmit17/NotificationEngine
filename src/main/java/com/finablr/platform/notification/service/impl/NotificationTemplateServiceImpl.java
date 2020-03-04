@@ -16,7 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.finablr.platform.notification.dto.GetAllNotificationTemplatesDto;
-
+import com.finablr.platform.notification.exceptionhandler.model.DataNotFoundException;
 import com.finablr.platform.notification.repository.NotificationTemplateRepository;
 import com.finablr.platform.notification.service.NotificationTemplateService;
 
@@ -45,8 +45,11 @@ public class NotificationTemplateServiceImpl implements NotificationTemplateServ
 	@Override
 	public Page<GetAllNotificationTemplatesDto> getAllNotificationTemplates(Pageable pageable) {
 		Page<NotificationTemplate> notificationTemplates = notificationTemplateRepository.findAll(pageable);
-		System.out.println(notificationTemplates);
 		Iterator<NotificationTemplate> notificationTemplatesIterator = notificationTemplates.iterator();
+		if(!notificationTemplatesIterator.hasNext()) {
+			throw new DataNotFoundException("No templates Found");
+		}
+		
 		List<GetAllNotificationTemplatesDto> getAllNotificationTemplatesDtos = new ArrayList<GetAllNotificationTemplatesDto>();
 		while (notificationTemplatesIterator.hasNext()) {
 			getAllNotificationTemplatesDtos
