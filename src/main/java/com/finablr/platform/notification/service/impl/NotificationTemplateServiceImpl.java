@@ -24,10 +24,10 @@ import com.finablr.platform.notification.service.NotificationTemplateService;
 public class NotificationTemplateServiceImpl implements NotificationTemplateService {
 
 	@Autowired
-	NotificationTemplateRepository notificationTemplateRepository;
+	private NotificationTemplateRepository notificationTemplateRepository;
 
 	@Autowired
-	ModelMapper modelMapper;
+	private ModelMapper modelMapper;
 
 	@Override
 	public void addNotificationTemplate() {
@@ -45,17 +45,12 @@ public class NotificationTemplateServiceImpl implements NotificationTemplateServ
 	@Override
 	public Page<GetAllNotificationTemplatesDto> getAllNotificationTemplates(Pageable pageable) {
 		Page<NotificationTemplate> notificationTemplates = notificationTemplateRepository.findAll(pageable);
-		Iterator<NotificationTemplate> notificationTemplatesIterator = notificationTemplates.iterator();
-		if(!notificationTemplatesIterator.hasNext()) {
+		List<GetAllNotificationTemplatesDto> getAllNotificationTemplatesDtos = new ArrayList<GetAllNotificationTemplatesDto>();
+		modelMapper.map(notificationTemplates.getContent(), getAllNotificationTemplatesDtos );
+		System.out.println(getAllNotificationTemplatesDtos);
+		if(notificationTemplates.getContent().isEmpty()) {
 			throw new DataNotFoundException("No templates Found");
 		}
-		
-		List<GetAllNotificationTemplatesDto> getAllNotificationTemplatesDtos = new ArrayList<GetAllNotificationTemplatesDto>();
-		while (notificationTemplatesIterator.hasNext()) {
-			getAllNotificationTemplatesDtos
-					.add(modelMapper.map(notificationTemplatesIterator.next(), GetAllNotificationTemplatesDto.class));
-		}
-
 		Page<GetAllNotificationTemplatesDto> notificationTemplatesPage = new PageImpl<>(
 				getAllNotificationTemplatesDtos);
 		return notificationTemplatesPage;
