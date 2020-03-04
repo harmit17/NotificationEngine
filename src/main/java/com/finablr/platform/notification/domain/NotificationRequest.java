@@ -14,7 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.finablr.platform.notification.convert.typeconvert;
+import com.finablr.platform.notification.convert.TypeConvert;
 
 
 @Entity
@@ -27,13 +27,11 @@ public class NotificationRequest {
 	private Long id;
 
 	@Column(name = "notification_data",nullable = false)
-	@ElementCollection
-	@Convert(converter = typeconvert.class, attributeName = "value")
+	@Convert(converter = TypeConvert.class)
 	private Map<String, String> notificationData;
 
 	@Column(name = "receipient_details",nullable = false)
-	@ElementCollection
-	@Convert(converter = typeconvert.class,attributeName = "value")
+	@Convert(converter = TypeConvert.class)
 	private Map<String, String> receipientDetails;
 
 	@Column(name = "retry_count",nullable = false)
@@ -137,15 +135,5 @@ public class NotificationRequest {
 	public void setTemplateId(NotificationTemplate templateId) {
 		this.notificationTemplate = templateId;
 	}
-
-	@Override
-	public String toString() {
-		return "NotificationRequest [id=" + id + ", notificationData=" + notificationData + ", receipientDetails="
-				+ receipientDetails + ", retryCount=" + retryCount + ", notificationSubject=" + notificationSubject
-				+ ", notificationBody=" + notificationBody + ", status=" + status + ", lastDeliveryAttempt="
-				+ lastDeliveryAttempt + ", requestTime=" + requestTime + ", templateId=" + notificationTemplate + "]";
-	}
-
-	
 
 }

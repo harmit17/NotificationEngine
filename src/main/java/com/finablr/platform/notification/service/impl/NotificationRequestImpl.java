@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import com.finablr.platform.notification.domain.NotificationRequest;
 import com.finablr.platform.notification.dto.AddNotificationRequestDto;
 import com.finablr.platform.notification.enumStatus.NotificationStatus;
-import com.finablr.platform.notification.exceptionhandler.model.NotificationRequestIdNotFoundException;
+import com.finablr.platform.notification.exceptionhandler.model.DataNotFoundException;
 import com.finablr.platform.notification.repository.NotificationRequestRepository;
 import com.finablr.platform.notification.service.NotificationRequestService;
 
@@ -36,10 +36,8 @@ public class NotificationRequestImpl implements NotificationRequestService {
 
 	@Override
 	public String getStatus(Long id) {
-		if (notoficationRequestRepo.existsById(id)) {
-			return notoficationRequestRepo.getOne(id).getStatus();
-		} else {
-			throw new NotificationRequestIdNotFoundException("Id Not Found");
-		}
+		if (!notoficationRequestRepo.existsById(id)) 
+			throw new DataNotFoundException("Id Not Found");
+		return notoficationRequestRepo.getOne(id).getStatus().toString();		
 	}
 }

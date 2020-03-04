@@ -23,11 +23,18 @@ public class AddNotificationRequestDto {
 	public void setRecieptionDetails(Map<String, String> recieptionDetails) {
 		this.recieptionDetails = recieptionDetails;
 	}
+	public String getTemplateCode() {
+		return templateCode;
+	}
+	public void setTemplateCode(String templateCode) {
+		this.templateCode = templateCode;
+	}
 	@Override
 	public String toString() {
 		return "AddNotificationRequestDto [templateCode=" + templateCode + ", notificationData=" + notificationData
 				+ ", recieptionDetails=" + recieptionDetails + "]";
 	}
+
 	
 	
 	
