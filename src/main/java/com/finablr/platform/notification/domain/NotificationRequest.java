@@ -11,41 +11,44 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import lombok.Getter;
-import lombok.Setter;
-
 
 @Entity
 @Table(name = "notification_request")
 public class NotificationRequest {
 
 	@Id
+	@Column(name = "request_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(nullable = false)
+	@Column(name = "notification_data",nullable = false)
 	@ElementCollection
 	private Map<String, String> notificationData;
 
-	@Column(nullable = false)
+	@Column(name = "receipient_details",nullable = false)
 	@ElementCollection
 	private Map<String, String> receipientDetails;
 
-	@Column(nullable = false)
+	@Column(name = "retry_count",nullable = false)
 	private Integer retryCount;
 
+	@Column(name = "notification_subject")
 	private String notificationSubject;
 
+	@Column(name = "notification_body")
 	private String notificationBody;
 
-	@Column(nullable = false)
+	@Column(name = "request_status",nullable = false)
 	private String status;
 
+	@Column(name = "last_delivert_attempt")
 	private Instant lastDeliveryAttempt;
 
+	@Column(name = "request_time")
 	private Instant requestTime;
 
-	@Column(nullable = false)
+	//@ManyToOne
+    //@JoinColumn(name="notification_template_id",nullable = false)
 	private Long notificationTemplateId;
 
 	public Long getId() {
@@ -128,5 +131,7 @@ public class NotificationRequest {
 	public void setNotificationTemplateId(Long notificationTemplateId) {
 		this.notificationTemplateId = notificationTemplateId;
 	}
+	
+	
 
 }
