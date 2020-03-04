@@ -17,4 +17,35 @@ public class Response<T> {
 		this.error = error;
 	}
 
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public T getData() {
+		return data;
+	}
+
+	public void setData(T data) {
+		this.data = data;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+
+	public Object getError() {
+		return error;
+	}
+
+	public void setError(Object error) {
+		this.error = error;
+	}
 }

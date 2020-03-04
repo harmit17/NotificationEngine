@@ -13,6 +13,7 @@ import com.finablr.platform.notification.domain.NotificationContentType;
 import com.finablr.platform.notification.dto.GetNotificationContentTypeDto;
 import com.finablr.platform.notification.service.NotificationContentTypeService;
 import com.finablr.platform.notification.service.impl.NotificationContentTypeServiceImpl;
+import com.finablr.platform.notification.util.Response;
 
 @RestController
 public class NotificationContentTypeController {
@@ -21,13 +22,13 @@ public class NotificationContentTypeController {
 	public NotificationContentTypeServiceImpl notificationContentTypeServiceImpl;
 	
 	@GetMapping("/api/v1/notification-content-types")
-	public List<GetNotificationContentTypeDto> getAllNotificationContentType() {
+	public Response<List<GetNotificationContentTypeDto>> getAllNotificationContentType() {
 		//System.out.println(notificationContentTypeServiceImpl.getAllNotificationContentType());
-		return notificationContentTypeServiceImpl.getAllNotificationContentType();
+		return new Response<List<GetNotificationContentTypeDto>>(200,notificationContentTypeServiceImpl.getAllNotificationContentType(),"Successfully Retrived",null);
 	}
 
 	@PatchMapping("/api/v1/notification-content-types/toggle/status/{id}")
-	public GetNotificationContentTypeDto getNotificationContentType(@PathVariable Long id) {
-		return notificationContentTypeServiceImpl.toggleNotificationContentType(id);
+	public Response<GetNotificationContentTypeDto> getNotificationContentType(@PathVariable Long id) {
+		return new Response<GetNotificationContentTypeDto>(200,notificationContentTypeServiceImpl.toggleNotificationContentType(id),"Status toggled",null);
 	}
 }
