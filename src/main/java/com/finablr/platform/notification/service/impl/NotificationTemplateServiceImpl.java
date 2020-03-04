@@ -2,7 +2,6 @@ package com.finablr.platform.notification.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import com.finablr.platform.notification.domain.NotificationTemplate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.finablr.platform.notification.dto.GetAllNotificationTemplatesDto;
 import com.finablr.platform.notification.exceptionhandler.model.DataNotFoundException;
+import com.finablr.platform.notification.repository.NotificationChannelRepository;
+import com.finablr.platform.notification.repository.NotificationContentTypeRepository;
+
 import com.finablr.platform.notification.repository.NotificationTemplateRepository;
 import com.finablr.platform.notification.service.NotificationTemplateService;
 
@@ -17,11 +19,17 @@ import com.finablr.platform.notification.service.NotificationTemplateService;
 public class NotificationTemplateServiceImpl implements NotificationTemplateService {
 
 	@Autowired
-	private NotificationTemplateRepository notificationTemplateRepository;
+	public NotificationTemplateRepository notificationTemplateRepository;
 
 	@Autowired
 	private ModelMapper modelMapper;
-
+	
+	@Autowired
+	NotificationChannelRepository notificationChannelRepository;
+	
+	@Autowired
+	NotificationContentTypeRepository notificationContentTypeRepository;
+	
 	@SuppressWarnings("null")
 	@Override
 	public Page<GetAllNotificationTemplatesDto> getAllNotificationTemplates(Pageable pageable) {

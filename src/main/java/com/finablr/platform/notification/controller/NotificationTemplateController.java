@@ -1,6 +1,5 @@
 package com.finablr.platform.notification.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +18,7 @@ import com.finablr.platform.notification.util.Response;
 public class NotificationTemplateController {
 
 	@Autowired
-	private NotificationTemplateService notificationTemplateService;	
+	public NotificationTemplateService notificationTemplateService;
 
 	@GetMapping("/api/v1/notification-templates")
 	public Response<Page<GetAllNotificationTemplatesDto>> getAllNotificationsData(Pageable pageable) {
