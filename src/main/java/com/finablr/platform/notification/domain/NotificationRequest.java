@@ -4,12 +4,17 @@ import java.time.Instant;
 import java.util.Map;
 
 import javax.persistence.Column;
+import javax.persistence.Convert;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.finablr.platform.notification.convert.TypeConvert;
 
 
 @Entity
@@ -22,11 +27,11 @@ public class NotificationRequest {
 	private Long id;
 
 	@Column(name = "notification_data",nullable = false)
-	@ElementCollection
+	@Convert(converter = TypeConvert.class)
 	private Map<String, String> notificationData;
 
 	@Column(name = "receipient_details",nullable = false)
-	@ElementCollection
+	@Convert(converter = TypeConvert.class)
 	private Map<String, String> receipientDetails;
 
 	@Column(name = "retry_count",nullable = false)
@@ -41,15 +46,15 @@ public class NotificationRequest {
 	@Column(name = "request_status",nullable = false)
 	private String status;
 
-	@Column(name = "last_delivert_attempt")
+	@Column(name = "last_delivery_attempt")
 	private Instant lastDeliveryAttempt;
 
 	@Column(name = "request_time")
 	private Instant requestTime;
 
-	//@ManyToOne
-    //@JoinColumn(name="notification_template_id",nullable = false)
-	private Long notificationTemplateId;
+	@ManyToOne
+    @JoinColumn(name="notification_template_id",nullable = false)
+	private NotificationTemplate notificationTemplate;
 
 	public Long getId() {
 		return id;
@@ -124,14 +129,12 @@ public class NotificationRequest {
 		this.requestTime = requestTime;
 	}
 
-	public Long getNotificationTemplateId() {
-		return notificationTemplateId;
+	public NotificationTemplate getTemplateId() {
+		return notificationTemplate;
 	}
 
-	public void setNotificationTemplateId(Long notificationTemplateId) {
-		this.notificationTemplateId = notificationTemplateId;
+	public void setTemplateId(NotificationTemplate templateId) {
+		this.notificationTemplate = templateId;
 	}
-	
-	
 
 }
