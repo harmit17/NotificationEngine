@@ -9,27 +9,35 @@ import javax.persistence.Id;
 @Entity(name = "notification_channel")
 public class NotificationChannel {
 
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="channel_id")
 	private Long channelId;
-	@Column(nullable = false)
+	@Column(name="channel_name", nullable = false)
 	private String channelName;
-	@Column(nullable = false)
+	@Column(name= "is_disable", nullable = false)
 	private boolean isDisable;
+
 	public Long getChannelId() {
 		return channelId;
 	}
+
 	public void setChannelId(Long channelId) {
 		this.channelId = channelId;
 	}
+
 	public String getChannelName() {
 		return channelName;
 	}
+
 	public void setChannelName(String channelName) {
 		this.channelName = channelName;
 	}
+
 	public boolean isDisable() {
 		return isDisable;
 	}
+
 	public void setDisable(boolean isDisable) {
 		this.isDisable = isDisable;
 	}
