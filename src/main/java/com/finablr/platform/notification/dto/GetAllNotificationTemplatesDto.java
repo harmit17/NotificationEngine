@@ -1,50 +1,30 @@
-package com.finablr.platform.notification.domain;
+package com.finablr.platform.notification.dto;
 
 import java.time.Instant;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+public class GetAllNotificationTemplatesDto {
 
-@Entity(name="notification_template")
-public class NotificationTemplate {
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="template_id")
 	private Long id;
-	
-	@Column(length = 50,nullable = false,unique = true)
-	private String templateCode;
-	
-	@Column(length = 50,nullable = false)
-	private String name;
-	
-	@Column(length = 255,nullable = false)
-	private String description;
-	
-	@Column(length = 255,nullable = false)
-	private String templateSubject;
-	
-	@Column(length = 1000,nullable = false)
-	private String templateBody;
-	
-	@Column(precision=1, scale=0,nullable = false)
-	private Integer maxRetry;
-	
-	@Column(name="effectiveForm",nullable = false)
-	private Instant effectiveFrom;
-	
-	private Instant effectiveTo;
-	
-	@Column(nullable = false)
-	private Long notificationChannelId;
-	
-	@Column(nullable = false)
-	private Long notificationContentTypeId;
 
+	private String templateCode;
+
+	private String name;
+
+	private String description;
+
+	private String templateSubject;
+
+	private String templateBody;
+
+	private Integer maxRetry;
+
+	private Instant effectiveFrom;
+
+	private Instant effectiveTo;
+
+	private Long notificationChannelId;
+
+	private Long notificationContentTypeId;
 	
 
 	public Long getId() {
@@ -103,7 +83,6 @@ public class NotificationTemplate {
 		this.maxRetry = maxRetry;
 	}
 
-
 	public Instant getEffectiveFrom() {
 		return effectiveFrom;
 	}
@@ -135,6 +114,5 @@ public class NotificationTemplate {
 	public void setNotificationContentTypeId(Long notificationContentTypeId) {
 		this.notificationContentTypeId = notificationContentTypeId;
 	}
-	
 	
 }
