@@ -47,7 +47,6 @@ public class NotificationTemplateServiceImpl implements NotificationTemplateServ
 		Page<NotificationTemplate> notificationTemplates = notificationTemplateRepository.findAll(pageable);
 		List<GetAllNotificationTemplatesDto> getAllNotificationTemplatesDtos = new ArrayList<GetAllNotificationTemplatesDto>();
 		modelMapper.map(notificationTemplates.getContent(), getAllNotificationTemplatesDtos );
-		System.out.println(getAllNotificationTemplatesDtos);
 		if(notificationTemplates.getContent().isEmpty()) {
 			throw new DataNotFoundException("No templates Found");
 		}
