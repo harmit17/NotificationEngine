@@ -19,16 +19,15 @@ import com.finablr.platform.notification.util.Response;
 public class NotificationContentTypeController {
 
 	@Autowired
-	public NotificationContentTypeServiceImpl notificationContentTypeServiceImpl;
+	public NotificationContentTypeService notificationContentTypeService;
 	
 	@GetMapping("/api/v1/notification-content-types")
 	public Response<List<GetNotificationContentTypeDto>> getAllNotificationContentType() {
-		//System.out.println(notificationContentTypeServiceImpl.getAllNotificationContentType());
-		return new Response<List<GetNotificationContentTypeDto>>(200,notificationContentTypeServiceImpl.getAllNotificationContentType(),"Successfully Retrived",null);
+		return new Response<List<GetNotificationContentTypeDto>>(200,notificationContentTypeService.getAllNotificationContentType(),"Successfully Retrived",null);
 	}
 
 	@PatchMapping("/api/v1/notification-content-types/toggle/status/{id}")
-	public Response<GetNotificationContentTypeDto> getNotificationContentType(@PathVariable Long id) {
-		return new Response<GetNotificationContentTypeDto>(200,notificationContentTypeServiceImpl.toggleNotificationContentType(id),"Status toggled",null);
+	public Response<GetNotificationContentTypeDto> toggleNotificationContentTypeStatus(@PathVariable Long id) {
+		return new Response<GetNotificationContentTypeDto>(200,notificationContentTypeService.toggleNotificationContentType(id),"Status toggled",null);
 	}
 }

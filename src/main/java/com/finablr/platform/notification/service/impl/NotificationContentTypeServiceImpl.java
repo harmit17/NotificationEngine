@@ -1,10 +1,16 @@
 package com.finablr.platform.notification.service.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
+import javax.servlet.Filter;
+
+import org.modelmapper.Converters.Collection;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,39 +32,33 @@ public class NotificationContentTypeServiceImpl implements NotificationContentTy
 	
 	@Override
 	public List<GetNotificationContentTypeDto> getAllNotificationContentType(){
-		List<NotificationContentType> notificationContentTypes = notificationContentTypeRepository.findAll();
-		List<GetNotificationContentTypeDto> getNotificationContentTypeDtos = new ArrayList<GetNotificationContentTypeDto>();
-		
-		Iterator<NotificationContentType> notiIterator = notificationContentTypes.iterator();
-		if(!notiIterator.hasNext()) {
+				
+		List<NotificationContentType> notificationContentTypes;
+		if((notificationContentTypes = notificationContentTypeRepository.findAll()).isEmpty())
 			throw new DataNotFoundException("No Content types available");
-		}
-		while(notiIterator.hasNext()) {
-			getNotificationContentTypeDtos.add(modelMapper.map(notiIterator.next(),GetNotificationContentTypeDto.class));
-		}
-		return getNotificationContentTypeDtos;
+			
+		return notificationContentTypes.stream().map(entity -> {
+			GetNotificationContentTypeDto dto = new GetNotificationContentTypeDto();
+			modelMapper.map(entity,dto);
+			return dto;
+		}).collect(Collectors.toList());
 	}
 	
 	@Override
 	public GetNotificationContentTypeDto toggleNotificationContentType(Long id) {
 		// TODO Auto-generated method stub
-		if(!notificationContentTypeRepository.existsById(id))
-		{
-			throw new DataNotFoundException("Notification Content Type not found with "+id);
-		}
-		Optional<NotificationContentType> notificationContentTypeOptional = notificationContentTypeRepository.findById(id);
+		
+		Optional<NotificationContentType> notificationContentTypeOptional;
+		if((notificationContentTypeOptional = notificationContentTypeRepository.findById(id)).isPresent()) {
 			
-			if(notificationContentTypeOptional.get().isDisable() == true)
-			{
-				notificationContentTypeOptional.get().setDisable(false);
-			}
-			else
-			{
-				notificationContentTypeOptional.get().setDisable(true);
-			}
+			notificationContentTypeOptional.get().setDisable(!notificationContentTypeOptional.get().isDisable());
 			notificationContentTypeRepository.save(notificationContentTypeOptional.get());
-			return modelMapper.map(notificationContentTypeOptional.get(),GetNotificationContentTypeDto.class);
 			
+			return modelMapper.map(notificationContentTypeOptional.get(),GetNotificationContentTypeDto.class);
+		}
+		else {
+			throw new DataNotFoundException("Notification Content Type not found with "+id);
+		}			
 	}
 
 }
