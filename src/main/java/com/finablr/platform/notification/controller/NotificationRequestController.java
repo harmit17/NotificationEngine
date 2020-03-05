@@ -1,12 +1,15 @@
 package com.finablr.platform.notification.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.finablr.platform.notification.dto.GetNotificationRequestStatusDto;
+import com.finablr.platform.notification.dto.AddNotificationRequestDto;
 import com.finablr.platform.notification.service.NotificationRequestService;
 
 
@@ -20,7 +23,7 @@ public class NotificationRequestController {
 	 * Add notification request controller method
 	 */
 	@PostMapping("/api/v1/notification-requests")
-	public void addNotificationRequest(GetNotificationRequestStatusDto notificationDto) {
+	public void addNotificationRequest(@RequestBody AddNotificationRequestDto notificationDto) {
 		service.addRequest(notificationDto);
 	}
 
