@@ -11,15 +11,13 @@ import com.finablr.platform.notification.dto.GetAllNotificationTemplatesDto;
 import com.finablr.platform.notification.service.NotificationTemplateService;
 import com.finablr.platform.notification.util.Response;
 
-
-
 @RestController
 @RequestMapping(value = "/user")
 public class NotificationTemplateController {
 
 	@Autowired
 	public NotificationTemplateService notificationTemplateService;
-
+	
 	@GetMapping("/api/v1/notification-templates")
 	public Response<Page<GetAllNotificationTemplatesDto>> getAllNotificationsData(Pageable pageable) {
 		return new Response<Page<GetAllNotificationTemplatesDto>>(HttpStatus.OK.value(), notificationTemplateService.getAllNotificationTemplates(pageable), "Successfully Retrived",null);

@@ -2,9 +2,6 @@ package com.finablr.platform.notification.dto;
 
 import java.time.Instant;
 
-import com.finablr.platform.notification.domain.NotificationChannel;
-import com.finablr.platform.notification.domain.NotificationContentType;
-
 public class AddNotificationTemplateDto {
 	
 
@@ -16,10 +13,10 @@ public class AddNotificationTemplateDto {
 	private Integer maxRetry;
 	private Instant effectiveForm;
 	private Instant effectiveTo;
-	//private NotificationChannel notificationChannelId;
-	//private NotificationContentType notificationContentTypeId;
+//	private NotificationChannel notificationChannelId;
+//	private NotificationContentType notificationContentTypeId;
 	private Long notificationChannelId;
-	private Long notificationContentType;
+	private Long notificationContentTypeId;
 	
 	public String getTemplateCode() {
 		return templateCode;
@@ -75,12 +72,13 @@ public class AddNotificationTemplateDto {
 	public void setNotificationChannelId(Long notificationChannelId) {
 		this.notificationChannelId = notificationChannelId;
 	}
-	public Long getNotificationContentType() {
-		return notificationContentType;
+	public Long getNotificationContentTypeId() {
+		return notificationContentTypeId;
 	}
-	public void setNotificationContentType(Long notificationContentType) {
-		this.notificationContentType = notificationContentType;
+	public void setNotificationContentTypeId(Long notificationContentTypeId) {
+		this.notificationContentTypeId = notificationContentTypeId;
 	}
+
 
 	
 }

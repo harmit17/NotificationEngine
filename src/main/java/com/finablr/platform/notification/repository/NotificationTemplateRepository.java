@@ -6,5 +6,7 @@ import com.finablr.platform.notification.domain.NotificationTemplate;
 
 @Repository
 public interface NotificationTemplateRepository extends JpaRepository<NotificationTemplate, Long> {
+	
+	public NotificationTemplate findByTemplateCode(String templateCode);
 
 }

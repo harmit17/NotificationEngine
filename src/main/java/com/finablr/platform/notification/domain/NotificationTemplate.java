@@ -1,11 +1,10 @@
+
 package com.finablr.platform.notification.domain;
 
 import java.time.Instant;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -45,11 +44,11 @@ public class NotificationTemplate {
 	private Instant effectiveTo;
 	
 	@ManyToOne
-	@JoinColumn(name="notificationChannelId",nullable = true)
+	@JoinColumn(name="notification_channel_id",nullable = true)
 	private NotificationChannel notificationChannel;
 	
 	@ManyToOne
-	@JoinColumn(name="notificationContentTypeId",nullable = true)
+	@JoinColumn(name="notification_content_type_id",nullable = true)
 	private NotificationContentType notificationContentType;
 
 	
