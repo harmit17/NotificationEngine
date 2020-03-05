@@ -45,12 +45,15 @@ public class NotificationTemplateServiceImpl implements NotificationTemplateServ
 	@Override
 	public Page<GetAllNotificationTemplatesDto> getAllNotificationTemplates(Pageable pageable) {
 		Page<NotificationTemplate> notificationTemplates = notificationTemplateRepository.findAll(pageable);
-		if(notificationTemplates.getContent().isEmpty()) {
+		if (notificationTemplates.getContent().isEmpty()) {
 			throw new DataNotFoundException("No templates Found");
 		}
-		Page<GetAllNotificationTemplatesDto> notificationTemplatesPage = null;
-		modelMapper.map(notificationTemplates, notificationTemplatesPage );	
-		return notificationTemplatesPage;
+		Page<GetAllNotificationTemplatesDto> notificationTemplatePages = notificationTemplates.map(notificationTemplate -> {
+			GetAllNotificationTemplatesDto getAllNotificationTemplatesDto = new GetAllNotificationTemplatesDto();
+			modelMapper.map(notificationTemplate, getAllNotificationTemplatesDto);
+			return getAllNotificationTemplatesDto;
+		});
+		return notificationTemplatePages;
 	}
 
 }
