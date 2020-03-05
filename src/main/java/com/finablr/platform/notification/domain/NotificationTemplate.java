@@ -42,10 +42,10 @@ public class NotificationTemplate {
 	private Instant effectiveTo;
 	
 	@Column(nullable = false)
-	private Long notificationChannel;
+	private Long notificationChannelId;
 	
 	@Column(nullable = false)
-	private Long notificationContentType;
+	private Long notificationContentTypeId;
 	
 	
 	public Long getTemplateId() {
@@ -120,22 +120,21 @@ public class NotificationTemplate {
 		this.effectiveTo = effectiveTo;
 	}
 
-	public Long getNotificationChannel() {
-		return notificationChannel;
+	public Long getNotificationChannelId() {
+		return notificationChannelId;
 	}
 
-	public void setNotificationChannel(Long notificationChannel) {
-		this.notificationChannel = notificationChannel;
+	public void setNotificationChannelId(Long notificationChannelId) {
+		this.notificationChannelId = notificationChannelId;
 	}
 
-	public Long getNotificationContentType() {
-		return notificationContentType;
+	public Long getNotificationContentTypeId() {
+		return notificationContentTypeId;
 	}
 
-	public void setNotificationContentType(Long notificationContentType) {
-		this.notificationContentType = notificationContentType;
+	public void setNotificationContentTypeId(Long notificationContentTypeId) {
+		this.notificationContentTypeId = notificationContentTypeId;
 	}
 
-	
-		
+			
 }
