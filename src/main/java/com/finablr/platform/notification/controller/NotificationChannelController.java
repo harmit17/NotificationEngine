@@ -20,26 +20,24 @@ public class NotificationChannelController {
 
 	@Autowired
 	public NotificationChannelService channelService;
-	
-	public NotificationChannelDto channelDto;
-	ModelMapper modelMapper = new ModelMapper();
-	
-	
-	//retrieve all available Notification Channel 
+
+	// retrieve all available Notification Channel
 	@GetMapping("/api/v1/notification-channels")
 	public Response<List<NotificationChannelDto>> getNotificationChannels() {
-		
+
 		String message = "Successfully retrieved";
 		Object error = null;
-		return new Response<List<NotificationChannelDto>>(HttpStatus.OK.value(), channelService.getAllChannels(), message, error);
+		return new Response<List<NotificationChannelDto>>(HttpStatus.OK.value(), channelService.getAllChannels(),
+				message, error);
 	}
-	
-	//change status of Notification Channel
+
+	// change status of Notification Channel
 	@PatchMapping("/api/v1/notification-channels/toggle/status/{channelId}")
 	public Response<NotificationChannelDto> toggleNotificationChannelStatus(@PathVariable Long channelId) {
-		
+
 		String message = "Status is successfully changed";
 		Object error = null;
-		return new Response<NotificationChannelDto>(HttpStatus.OK.value(), channelService.toggleChannelStatus(channelId), message, error);
+		return new Response<NotificationChannelDto>(HttpStatus.OK.value(),
+				channelService.toggleChannelStatus(channelId), message, error);
 	}
 }

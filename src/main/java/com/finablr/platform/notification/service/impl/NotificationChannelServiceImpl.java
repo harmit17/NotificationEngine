@@ -21,8 +21,8 @@ public class NotificationChannelServiceImpl implements NotificationChannelServic
 	@Autowired
 	public NotificationChannelRepository notificationChannelRepository;
 
-	public NotificationChannelDto channelDto;
-	ModelMapper modelMapper = new ModelMapper();
+	@Autowired
+	ModelMapper modelMapper;
 
 	@Override
 	public List<NotificationChannelDto> getAllChannels() {
