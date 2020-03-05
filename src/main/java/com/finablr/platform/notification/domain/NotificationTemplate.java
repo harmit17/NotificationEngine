@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 
 @Entity(name="notification_template")
 public class NotificationTemplate {
@@ -39,11 +42,12 @@ public class NotificationTemplate {
 	private Instant effectiveTo;
 	
 	@Column(nullable = false)
-	private Long notificationChannelId;
+	private Long notificationChannel;
 	
 	@Column(nullable = false)
-	private Long notificationContentTypeId;
-
+	private Long notificationContentType;
+	
+	
 	public Long getTemplateId() {
 		return templateId;
 	}
@@ -116,21 +120,22 @@ public class NotificationTemplate {
 		this.effectiveTo = effectiveTo;
 	}
 
-	public Long getNotificationChannelId() {
-		return notificationChannelId;
+	public Long getNotificationChannel() {
+		return notificationChannel;
 	}
 
-	public void setNotificationChannelId(Long notificationChannelId) {
-		this.notificationChannelId = notificationChannelId;
+	public void setNotificationChannel(Long notificationChannel) {
+		this.notificationChannel = notificationChannel;
 	}
 
-	public Long getNotificationContentTypeId() {
-		return notificationContentTypeId;
+	public Long getNotificationContentType() {
+		return notificationContentType;
 	}
 
-	public void setNotificationContentTypeId(Long notificationContentTypeId) {
-		this.notificationContentTypeId = notificationContentTypeId;
+	public void setNotificationContentType(Long notificationContentType) {
+		this.notificationContentType = notificationContentType;
 	}
+
 	
-	
+		
 }

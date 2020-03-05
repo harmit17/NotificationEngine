@@ -2,40 +2,44 @@ package com.finablr.platform.notification.dto;
 
 import java.util.Map;
 
-public class AddNotificationRequestDto {
-	
-	private String templateCode;
-	
-	private Map<String,String> notificationData; 
+import com.sun.istack.NotNull;
 
-	private Map<String,String> recieptionDetails;
+public class AddNotificationRequestDto {
+
+	@NotNull
+	private String templateCode;
+	@NotNull
+	private Map<String, String> notificationData;
+	@NotNull
+	private Map<String, String> receipientDetails;
 	
-	
+	private Long id; 
+
+	public Long getId() {
+		return id;
+	}
+
 	public Map<String, String> getNotificationData() {
 		return notificationData;
 	}
+
 	public void setNotificationData(Map<String, String> notificationData) {
 		this.notificationData = notificationData;
 	}
-	public Map<String, String> getRecieptionDetails() {
-		return recieptionDetails;
+
+	public Map<String, String> getReceipientDetails() {
+		return receipientDetails;
 	}
-	public void setRecieptionDetails(Map<String, String> recieptionDetails) {
-		this.recieptionDetails = recieptionDetails;
+
+	public void setReceipientDetails(Map<String, String> receipientDetails) {
+		this.receipientDetails = receipientDetails;
 	}
+
 	public String getTemplateCode() {
 		return templateCode;
 	}
+
 	public void setTemplateCode(String templateCode) {
 		this.templateCode = templateCode;
 	}
-	@Override
-	public String toString() {
-		return "AddNotificationRequestDto [templateCode=" + templateCode + ", notificationData=" + notificationData
-				+ ", recieptionDetails=" + recieptionDetails + "]";
-	}
-
-	
-	
-	
 }
