@@ -29,36 +29,34 @@ public class NotificationContentTypeServiceImpl implements NotificationContentTy
 
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	@Override
-	public List<GetNotificationContentTypeDto> getAllNotificationContentType(){
-				
-		List<NotificationContentType> notificationContentTypes;
-		if((notificationContentTypes = notificationContentTypeRepository.findAll()).isEmpty())
+	public List<GetNotificationContentTypeDto> getAllNotificationContentType() {
+
+		List<NotificationContentType> notificationContentTypes = notificationContentTypeRepository.findAll();
+		if (notificationContentTypes.isEmpty())
 			throw new DataNotFoundException("No Content types available");
-			
+
 		return notificationContentTypes.stream().map(entity -> {
 			GetNotificationContentTypeDto dto = new GetNotificationContentTypeDto();
-			modelMapper.map(entity,dto);
+			modelMapper.map(entity, dto);
 			return dto;
 		}).collect(Collectors.toList());
 	}
-	
+
 	@Override
 	public GetNotificationContentTypeDto toggleNotificationContentType(Long id) {
-		// TODO Auto-generated method stub
-		
-		Optional<NotificationContentType> notificationContentTypeOptional;
-		if((notificationContentTypeOptional = notificationContentTypeRepository.findById(id)).isPresent()) {
-			
+
+		Optional<NotificationContentType> notificationContentTypeOptional = notificationContentTypeRepository
+				.findById(id);
+		if (notificationContentTypeOptional.isPresent()) {
+
 			notificationContentTypeOptional.get().setDisable(!notificationContentTypeOptional.get().isDisable());
 			notificationContentTypeRepository.save(notificationContentTypeOptional.get());
-			
-			return modelMapper.map(notificationContentTypeOptional.get(),GetNotificationContentTypeDto.class);
+
+			return modelMapper.map(notificationContentTypeOptional.get(), GetNotificationContentTypeDto.class);
 		}
-		else {
-			throw new DataNotFoundException("Notification Content Type not found with "+id);
-		}
+		throw new DataNotFoundException("Notification Content Type not found with " + id);
 	}
 
 }
