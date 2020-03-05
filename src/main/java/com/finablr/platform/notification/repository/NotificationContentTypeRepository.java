@@ -7,5 +7,4 @@ import com.finablr.platform.notification.domain.NotificationContentType;
 
 @Repository
 public interface NotificationContentTypeRepository extends JpaRepository<NotificationContentType, Long> {
-
 }
