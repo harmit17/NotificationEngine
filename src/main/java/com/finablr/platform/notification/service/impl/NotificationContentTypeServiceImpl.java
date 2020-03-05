@@ -58,7 +58,7 @@ public class NotificationContentTypeServiceImpl implements NotificationContentTy
 		}
 		else {
 			throw new DataNotFoundException("Notification Content Type not found with "+id);
-		}			
+		}
 	}
 
 }
