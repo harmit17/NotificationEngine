@@ -1,9 +1,9 @@
 package com.finablr.platform.notification.service.impl;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.finablr.platform.notification.domain.NotificationChannel;
 import com.finablr.platform.notification.dto.NotificationChannelDto;
+import com.finablr.platform.notification.exceptionhandler.model.DataNotFoundException;
 import com.finablr.platform.notification.repository.NotificationChannelRepository;
 import com.finablr.platform.notification.service.NotificationChannelService;
 
@@ -26,18 +27,16 @@ public class NotificationChannelServiceImpl implements NotificationChannelServic
 	@Override
 	public List<NotificationChannelDto> getAllChannels() {
 
-		/*
-		 * findAll() method will give data in List Iterator is used to iterate
-		 * NotificationChannel(Entity) List and add in NotificationChannel(Dto) list
-		 */
 		List<NotificationChannel> notificationChannel = notificationChannelRepository.findAll();
-		List<NotificationChannelDto> channelDto = new ArrayList<NotificationChannelDto>();
+		if (notificationChannel.isEmpty())
+			throw new DataNotFoundException("No Data found");
 
-		Iterator<NotificationChannel> channelItr = notificationChannel.iterator();
-		while (channelItr.hasNext()) {
+		List<NotificationChannelDto> channelDto = notificationChannel.stream().map(channelEntity -> {
+			NotificationChannelDto dto = new NotificationChannelDto();
+			modelMapper.map(channelEntity, dto);
+			return dto;
+		}).collect(Collectors.toList());
 
-			channelDto.add(modelMapper.map(channelItr.next(), NotificationChannelDto.class));
-		}
 		return channelDto;
 	}
 
@@ -47,15 +46,13 @@ public class NotificationChannelServiceImpl implements NotificationChannelServic
 		Optional<NotificationChannel> channelOptional = notificationChannelRepository.findById(id);
 		if (channelOptional.isPresent()) {
 
-			if (channelOptional.get().isDisable() == true)
-				channelOptional.get().setDisable(false);
-			else
-				channelOptional.get().setDisable(true);
-
+			channelOptional.get().setDisable(!channelOptional.get().isDisable());
 			notificationChannelRepository.save(channelOptional.get());
-
+			
 			return modelMapper.map(channelOptional.get(), NotificationChannelDto.class);
 		}
-		return null;
+		else {
+			throw new DataNotFoundException("No Data Found");
+		}
 	}
 }
