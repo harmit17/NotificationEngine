@@ -48,11 +48,9 @@ public class NotificationChannelServiceImpl implements NotificationChannelServic
 
 			channelOptional.get().setDisable(!channelOptional.get().isDisable());
 			notificationChannelRepository.save(channelOptional.get());
-			
+
 			return modelMapper.map(channelOptional.get(), NotificationChannelDto.class);
 		}
-		else {
-			throw new DataNotFoundException("No Data Found");
-		}
+		throw new DataNotFoundException("No Data Found");
 	}
 }
