@@ -1,70 +1,88 @@
 package com.finablr.platform.notification.service.impl;
 
-import java.util.Iterator;
-import java.util.List;
+
+
+import java.time.Instant;
 import java.util.Map;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 
 import com.finablr.platform.notification.domain.NotificationTemplate;
 import com.finablr.platform.notification.dto.DownloadNotificationTemplateDto;
 import com.finablr.platform.notification.dto.GetAllNotificationTemplatesDto;
 import com.finablr.platform.notification.dto.NotificationTemplateFileDto;
+
+
+import org.springframework.stereotype.Service;
+
+
 import com.finablr.platform.notification.exceptionhandler.model.DataNotFoundException;
 import com.finablr.platform.notification.repository.NotificationTemplateRepository;
 import com.finablr.platform.notification.service.NotificationTemplateService;
+import com.finablr.platform.notification.util.MergePlaceHolder;
 
-public class NotificationTemplateServiceImpl implements NotificationTemplateService{
-	
+@Service
+public class NotificationTemplateServiceImpl implements NotificationTemplateService {
+
 	@Autowired
-	NotificationTemplateRepository notificationTemplateRepository;
-	
+	private NotificationTemplateRepository notificationTemplateRepository;
+
 	@Autowired
-	ModelMapper modelMapper;
-	
+	private ModelMapper modelMapper;
+
+
 	@Override
 	public void addNotificationTemplate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void updateNotificationTemplate() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@SuppressWarnings("null")
 	@Override
 	public Page<GetAllNotificationTemplatesDto> getAllNotificationTemplates(Pageable pageable) {
 		Page<NotificationTemplate> notificationTemplates = notificationTemplateRepository.findAll(pageable);
-		Iterator<NotificationTemplate> notificationTemplatesIterator = notificationTemplates.iterator();
-		List<GetAllNotificationTemplatesDto> getAllNotificationTemplatesDtos = null;
-		while(notificationTemplatesIterator.hasNext()) {
-			getAllNotificationTemplatesDtos.add(new GetAllNotificationTemplatesDto(notificationTemplatesIterator.next()));	
+		if (notificationTemplates.getContent().isEmpty()) {
+			throw new DataNotFoundException("No templates Found");
 		}
-		Page<GetAllNotificationTemplatesDto> notificationTemplatesPage = new PageImpl<>(getAllNotificationTemplatesDtos);
-		return notificationTemplatesPage;
+		Page<GetAllNotificationTemplatesDto> notificationTemplatePages = notificationTemplates.map(notificationTemplate -> {
+			GetAllNotificationTemplatesDto getAllNotificationTemplatesDto = new GetAllNotificationTemplatesDto();
+			modelMapper.map(notificationTemplate, getAllNotificationTemplatesDto);
+			return getAllNotificationTemplatesDto;
+		});
+		return notificationTemplatePages;
 	}
 
 	@Override
 	public NotificationTemplateFileDto downloadNotificationTemplateFile(
 			DownloadNotificationTemplateDto downloadNotificationTemplateDto) {
-		NotificationTemplate notificationTemplate = notificationTemplateRepository.findById(downloadNotificationTemplateDto.getId()).get();
-		if(notificationTemplate == null) {
+		NotificationTemplate notificationTemplate;
+		try{
+			notificationTemplate = notificationTemplateRepository.findById(downloadNotificationTemplateDto.getId()).get();
+		}
+		catch(Exception exception) {
 			throw new DataNotFoundException("Template Not Found");
 		}
-		
-		Map<String , String> templateData = downloadNotificationTemplateDto.getNotificationData();
-		for(String key : templateData.keySet()) {
-			notificationTemplate.getTemplateBody().replaceAll("{{"+key+"}}", templateData.get(key));
+		if(!(notificationTemplate.getEffectiveFrom().isBefore(Instant.now()) && notificationTemplate.getEffectiveTo().isAfter(Instant.now()))) {
+			throw new DataNotFoundException("Template Expired");
 		}
+		Map<String , String> templateData = downloadNotificationTemplateDto.getNotificationData();
+		notificationTemplate.setTemplateBody(new MergePlaceHolder().replacePlaceholders(templateData,notificationTemplate.getTemplateBody()));
 		NotificationTemplateFileDto notificationTemplateFileDto = modelMapper.map(notificationTemplate, NotificationTemplateFileDto.class);
 		return notificationTemplateFileDto;
 	}
+
+	
+	
+	
+
 	
 }

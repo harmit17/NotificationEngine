@@ -5,7 +5,6 @@ import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -79,6 +78,7 @@ public class NotificationRequest {
 	public void setReceipientDetails(Map<String, String> receipientDetails) {
 		this.receipientDetails = receipientDetails;
 	}
+	
 
 	public Integer getRetryCount() {
 		return retryCount;

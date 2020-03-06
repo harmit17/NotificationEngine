@@ -13,6 +13,7 @@ public class NotificationTemplate {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(name="template_id")
 	private Long id;
 	
 	@Column(length = 50,nullable = false,unique = true)
@@ -33,7 +34,7 @@ public class NotificationTemplate {
 	@Column(precision=1, scale=0,nullable = false)
 	private Integer maxRetry;
 	
-	@Column(nullable = false)
+	@Column(name="effectiveForm",nullable = false)
 	private Instant effectiveFrom;
 	
 	private Instant effectiveTo;
@@ -44,7 +45,6 @@ public class NotificationTemplate {
 	@Column(nullable = false)
 	private Long notificationContentTypeId;
 
-	
 
 	public Long getId() {
 		return id;
@@ -102,7 +102,7 @@ public class NotificationTemplate {
 		this.maxRetry = maxRetry;
 	}
 
-	
+
 	public Instant getEffectiveFrom() {
 		return effectiveFrom;
 	}
