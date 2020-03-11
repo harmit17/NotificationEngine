@@ -1,13 +1,8 @@
-package com.finablr.platform.notification;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest
-class NotificationEngineApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
-}
+//package com.finablr.platform.notification;
+//
+//import org.springframework.boot.test.context.SpringBootTest;
+//
+//@SpringBootTest
+//class NotificationEngineApplicationTests {
+//	
+//}

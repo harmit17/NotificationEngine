@@ -1,8 +1,6 @@
 package com.finablr.platform.notification.service.impl;
 
-import java.sql.Timestamp;
 import java.time.Instant;
-import java.util.Date;
 import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
@@ -36,8 +34,8 @@ public class NotificationRequestImpl implements NotificationRequestService {
 		
 		Instant time = Instant.now();
 		
-//		if(notificationDto.getNotificationData())
-//			throw new DataNotFoundException("Invalid input");
+		if(notificationDto.getNotificationData().isEmpty())
+			throw new DataNotFoundException("Invalid input");
 		
 //		if(notificationDto.getReceipientDetails().isEmpty())
 //			throw new DataNotFoundException("Invalid input");
@@ -46,7 +44,7 @@ public class NotificationRequestImpl implements NotificationRequestService {
 		if(!notificationTemplate.isPresent())
 			throw new DataNotFoundException("Template Not Found");
 		
-		if(!time.isAfter(notificationTemplate.get().getEffectiveForm()) && time.isBefore(notificationTemplate.get().getEffectiveTo()) )
+		if(!time.isAfter(notificationTemplate.get().getEffectiveFrom()) && time.isBefore(notificationTemplate.get().getEffectiveTo()) )
 			throw new BusinessException("Template Not available");
 		
 //		if(!notificationTemplate.get().getNotificationChannel().isDisable())
@@ -60,10 +58,11 @@ public class NotificationRequestImpl implements NotificationRequestService {
 		NotificationRequest getStatus = modelmapper.map(notificationDto, NotificationRequest.class);
 		System.out.println(notificationDto);
 		getStatus.setRetryCount(0);
-		getStatus.setStatus(NotificationStatus.PENDIND.name());
+		getStatus.setStatus(NotificationStatus.PENDING.name());
 		getStatus.setRequestTime(Instant.now());
 		getStatus.setTemplateId(notificationTemplate.get());
-		// to
+		for(String key:notificationDto.getNotificationData().keySet())  
+			notificationTemplate.get().getTemplateBody().replaceAll("\\{\\{"+ key +"\\}\\}", notificationDto.getNotificationData().get(key));	
 		getStatus.setNotificationBody(notificationTemplate.get().getTemplateBody());
 		getStatus.setNotificationSubject(notificationTemplate.get().getTemplateSubject());
 		notificationRequestRepository.save(getStatus);

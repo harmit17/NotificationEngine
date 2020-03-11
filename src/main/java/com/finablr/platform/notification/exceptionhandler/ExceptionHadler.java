@@ -30,12 +30,12 @@ public class ExceptionHadler extends ResponseEntityExceptionHandler {
 	
 	@ExceptionHandler(RuntimeException.class)
 	public final Response<?> handleUserNotFoundException(RuntimeException ex, WebRequest request) {
-		return new Response<>(HttpStatus.OK.value(), null, ex.getMessage(), null);
+		return new Response<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null, ex.getMessage(), null);
 	}
 	
 	@ExceptionHandler(BusinessException.class)
 	public final Response<?> handleUserNotFoundException(BusinessException ex, WebRequest request) {
-		return new Response<>(HttpStatus.OK.value(), null, ex.getMessage(), null);
+		return new Response<>(HttpStatus.NOT_FOUND.value(), null, ex.getMessage(), null);
 	}
 
 }
