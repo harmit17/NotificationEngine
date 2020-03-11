@@ -9,4 +9,5 @@ public interface NotificationTemplateRepository extends JpaRepository<Notificati
 	
 	public NotificationTemplate findByTemplateCode(String templateCode);
 
+
 }

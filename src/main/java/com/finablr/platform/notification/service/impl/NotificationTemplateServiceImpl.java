@@ -6,6 +6,8 @@ import com.finablr.platform.notification.domain.NotificationTemplate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import com.finablr.platform.notification.dto.GetAllNotificationTemplatesDto;
 import com.finablr.platform.notification.exceptionhandler.model.DataNotFoundException;
@@ -29,7 +31,7 @@ public class NotificationTemplateServiceImpl implements NotificationTemplateServ
 	
 	@Autowired
 	NotificationContentTypeRepository notificationContentTypeRepository;
-	
+
 	
 	@SuppressWarnings("null")
 	@Override
@@ -45,4 +47,5 @@ public class NotificationTemplateServiceImpl implements NotificationTemplateServ
 		});
 		return notificationTemplatePages;
 	}	
+
 }
