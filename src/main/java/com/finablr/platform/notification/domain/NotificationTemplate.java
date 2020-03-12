@@ -16,8 +16,7 @@ public class NotificationTemplate {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="template_id")
-	private Long id;
+	private Long templateId;
 	
 	@Column(length = 50,nullable = false,unique = true)
 	private String templateCode;
@@ -37,8 +36,8 @@ public class NotificationTemplate {
 	@Column(precision=1, scale=0,nullable = false)
 	private Integer maxRetry;
 	
-	@Column(name="effectiveForm",nullable = false)
-	private Instant effectiveFrom;
+	@Column(nullable = false)
+	private Instant effectiveForm;
 	
 	@Column(nullable = false)
 	private Instant effectiveTo;
@@ -51,14 +50,12 @@ public class NotificationTemplate {
 	@JoinColumn(name="notification_content_type_id",nullable = true)
 	private NotificationContentType notificationContentType;
 
-	
-
-	public Long getId() {
-		return id;
+	public Long getTemplateId() {
+		return templateId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setTemplateId(Long templateId) {
+		this.templateId = templateId;
 	}
 
 	public String getTemplateCode() {
@@ -109,13 +106,12 @@ public class NotificationTemplate {
 		this.maxRetry = maxRetry;
 	}
 
-
-	public Instant getEffectiveFrom() {
-		return effectiveFrom;
+	public Instant getEffectiveForm() {
+		return effectiveForm;
 	}
 
-	public void setEffectiveFrom(Instant effectiveFrom) {
-		this.effectiveFrom = effectiveFrom;
+	public void setEffectiveForm(Instant effectiveForm) {
+		this.effectiveForm = effectiveForm;
 	}
 
 	public Instant getEffectiveTo() {
