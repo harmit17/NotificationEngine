@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.2.4.RELEASE</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.finablr.platform</groupId>
 	<artifactId>notification-engine</artifactId>
@@ -27,29 +28,29 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 		</dependency>
 		<!-- Thanks for using https://jar-download.com -->
-		
+
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-		
+
 		<!-- https://mvnrepository.com/artifact/org.liquibase/liquibase-core -->
 		<dependency>
-		    <groupId>org.liquibase</groupId>
-		    <artifactId>liquibase-core</artifactId>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
 		</dependency>
 
 		<dependency>
-		    <groupId>org.modelmapper</groupId>
-		    <artifactId>modelmapper</artifactId>
-		    <version>2.3.5</version>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>2.3.5</version>
 		</dependency>
 
 		<dependency>
@@ -63,35 +64,48 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
-	        
-	        <plugin>
-	           <groupId>org.liquibase</groupId>
-	           <artifactId>liquibase-maven-plugin</artifactId>
-	           <configuration>  
-	           	    <changeLogFile>src/main/resources/db/changelog/db.changelog-master.xml</changeLogFile>
-        			<driver>com.mysql.cj.jdbc.Driver</driver>
-                   	<url>jdbc:mysql://localhost:3306/notificationengine?serverTimezone=UTC</url>
-                   	<defaultSchemaName>notificationengine</defaultSchemaName>
-                   	<username>root</username>
-                   	<password></password>
-                   	<verbose>true</verbose>
-                   	<logging>debug</logging>
-	           </configuration>                
-	           <executions>
-	             <execution>
-	               <phase>process-resources</phase>                                                                  
-	               <goals>
-	               <goal>update</goal>
-	               </goals>
-	             </execution>
-	           </executions>
-	        </plugin>  
-	         
-        
+
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<configuration>
+					<changeLogFile>src/main/resources/db/changelog/db.changelog-master.xml</changeLogFile>
+					       
+					<driver>com.mysql.cj.jdbc.Driver</driver>
+					                   
+					<url>jdbc:mysql://localhost:3306/notificationengine?serverTimezone=UTC</url>
+					                   
+					<defaultSchemaName>notificationengine</defaultSchemaName>
+					                   
+					<username>root</username>
+					                   
+					<password>root</password>
+					                   
+					<verbose>true</verbose>
+					                   
+					<logging>debug</logging>
+				</configuration>
+				<executions>
+					<execution>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>update</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -99,7 +113,8 @@
 		</plugins>
 		<pluginManagement>
 			<plugins>
-				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<!--This plugin's configuration is used to store Eclipse m2e settings 
+					only. It has no influence on the Maven build itself. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
