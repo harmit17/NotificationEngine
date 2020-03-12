@@ -1,9 +1,13 @@
 package com.finablr.platform.notification.service.impl;
 
 import java.time.Instant;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import com.finablr.platform.notification.domain.NotificationChannel;
+import com.finablr.platform.notification.domain.NotificationContentType;
 import com.finablr.platform.notification.domain.NotificationTemplate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -36,31 +40,38 @@ public class NotificationTemplateServiceImpl implements NotificationTemplateServ
 
 	@Override
 	public Long addNotificationTemplate(AddNotificationTemplateDto addNotificationTemplateDto) {
-		Long notificationChannelId=addNotificationTemplateDto.getNotificationChannelId();
-		Long notificationContentTypeId=addNotificationTemplateDto.getNotificationContentTypeId();
-		NotificationTemplate notificationTemplate = modelMapper.map(addNotificationTemplateDto,NotificationTemplate.class);
-		if(!(notificationTemplate.getEffectiveFrom().isAfter(Instant.now()) && notificationTemplate.getEffectiveTo().isAfter(Instant.now()))) {
+		
+		Optional<NotificationChannel> notificationChannel = notificationChannelRepository.findById(addNotificationTemplateDto.getNotificationChannelId());
+		Optional<NotificationContentType> notificationContentType=notificationContentTypeRepository.findById(addNotificationTemplateDto.getNotificationContentTypeId());
+		
+		if(!(addNotificationTemplateDto.getEffectiveFrom().isAfter(Instant.now()) && addNotificationTemplateDto.getEffectiveTo().isAfter(Instant.now()))) {
 			throw new DataNotFoundException("Template Expired");
 		}
-		if(!(notificationTemplate.getEffectiveTo().isAfter(notificationTemplate.getEffectiveFrom())))
+		
+		if(!(addNotificationTemplateDto.getEffectiveTo().isAfter(addNotificationTemplateDto.getEffectiveFrom())))
 		{
 			throw new DataNotFoundException("ToDate Should Be After FromDate");
 		}
+		
 		if(notificationTemplateRepository.findByTemplateCode(addNotificationTemplateDto.getTemplateCode())!=null)
 		{
 			throw new DataNotFoundException("Template Code Already Exists");
 		}
-		notificationTemplate.setTemplateId(Long.valueOf(0));
-		notificationTemplate.setNotificationChannel(notificationChannelRepository.findById(notificationChannelId).get());
-		notificationTemplate.setNotificationContentType(notificationContentTypeRepository.findById(notificationContentTypeId).get());
-		if(notificationTemplate.getNotificationChannel().getChannelName()==null||notificationTemplate.getNotificationContentType().getName()==null||(notificationTemplate.getNotificationChannel().isDisable()==true||notificationTemplate.getNotificationContentType().isDisable()==true))
+		
+		if(notificationChannel.get().getChannelName()==null||notificationContentType.get().getName()==null||(notificationChannel.get().isDisable()==true||notificationContentType.get().isDisable()==true))
 		{
 			throw new DataNotFoundException("NotificationChannelName or NotificationContentType Is Not found or NotificationChannelName or NotificationContentType Is Not enable");
 		}
-		if(!(notificationTemplate.getNotificationChannel().getChannelName().equals("WhatsApp") && notificationTemplate.getNotificationContentType().getName
-				().equals("text"))){
+		
+		if(!(notificationChannel.get().getChannelName().equals("WhatsApp") && notificationContentType.get().getName().equals("text"))){
 					throw new DataNotFoundException("Channel is not competable with content type");
 				}
+		
+		NotificationTemplate notificationTemplate = modelMapper.map(addNotificationTemplateDto,NotificationTemplate.class);
+		notificationTemplate.setTemplateId(Long.valueOf(0));
+		notificationTemplate.setNotificationChannel(notificationChannel.get());
+		notificationTemplate.setNotificationContentType(notificationContentType.get());
+		
 		NotificationTemplate notificationTemplate1=notificationTemplateRepository.save(notificationTemplate);
 		return notificationTemplate1.getTemplateId();
 	}
@@ -69,22 +80,25 @@ public class NotificationTemplateServiceImpl implements NotificationTemplateServ
 	public Long updateNotificationTemplate(UpdateNotificationTemplateDto updateNotificationTemplateDto) {
 		NotificationTemplate notificationTemplate = modelMapper.map(updateNotificationTemplateDto,NotificationTemplate.class);
 		try{
-			notificationTemplate=notificationTemplateRepository.findById(updateNotificationTemplateDto.getTemplateId()).get();
+			notificationTemplate = notificationTemplateRepository
+					.findById(updateNotificationTemplateDto.getTemplateId()).get();
 		}
 		catch(Exception e){
 			throw new DataNotFoundException("Template Not Found");
 		}
+		if(!(updateNotificationTemplateDto.getEffectiveFrom().isAfter(Instant.now()) && updateNotificationTemplateDto.getEffectiveTo().isAfter(Instant.now()))) {
+			throw new DataNotFoundException("Template Expired");
+		}
+		if(!(updateNotificationTemplateDto.getEffectiveTo().isAfter(updateNotificationTemplateDto.getEffectiveFrom())))
+		{
+			throw new DataNotFoundException("ToDate Should Be After FromDate");
+		}
+		
 		notificationTemplate.setTemplateSubject(updateNotificationTemplateDto.getTemplateSubject());
 		notificationTemplate.setTemplateBody(updateNotificationTemplateDto.getTemplateBody());
 		notificationTemplate.setEffectiveFrom(updateNotificationTemplateDto.getEffectiveFrom());
 		notificationTemplate.setEffectiveTo(updateNotificationTemplateDto.getEffectiveTo());
-		if(!(notificationTemplate.getEffectiveFrom().isAfter(Instant.now()) && notificationTemplate.getEffectiveTo().isAfter(Instant.now()))) {
-			throw new DataNotFoundException("Template Expired");
-		}
-		if(!(notificationTemplate.getEffectiveTo().isAfter(notificationTemplate.getEffectiveFrom())))
-		{
-			throw new DataNotFoundException("ToDate Should Be After FromDate");
-		}
+		
 		notificationTemplateRepository.save(notificationTemplate);
 		return notificationTemplate.getTemplateId();
 	}
