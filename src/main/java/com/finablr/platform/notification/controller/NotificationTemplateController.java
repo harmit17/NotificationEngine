@@ -17,19 +17,18 @@ import com.finablr.platform.notification.service.NotificationTemplateService;
 import com.finablr.platform.notification.util.Response;
 
 @RestController
-@RequestMapping(value = "/user")
 public class NotificationTemplateController {
 
 	@Autowired
 	public NotificationTemplateService notificationTemplateService;
 	
-	@RequestMapping(value="/addNotificationTemplateData",method = RequestMethod.POST)
+	@RequestMapping(value="/api/v1/notification-templates",method = RequestMethod.POST)
 	public Response<Long> addNotificationTemplateData(@RequestBody AddNotificationTemplateDto addNotificationTemplateDto)
 	{
 		return new Response<Long>(HttpStatus.OK.value(),this.notificationTemplateService.addNotificationTemplate(addNotificationTemplateDto),"Notification Template Data Add Successfully",null);
 	}
 	
-	@RequestMapping(value="/updateNotificationTemplateData",method = RequestMethod.PUT)
+	@RequestMapping(value="/api/v1/notification-templates",method = RequestMethod.PUT)
 	public Response<Long> updateNotificationTemplateData(@RequestBody UpdateNotificationTemplateDto updateNotificationTemplateDto)
 	{
 		return new Response<Long>(HttpStatus.OK.value(),this.notificationTemplateService.updateNotificationTemplate(updateNotificationTemplateDto),"Notification Template Data Update Successfully",null);

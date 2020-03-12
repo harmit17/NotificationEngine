@@ -11,7 +11,7 @@ public class AddNotificationTemplateDto {
 	private String templateSubject;
 	private String templateBody;
 	private Integer maxRetry;
-	private Instant effectiveForm;
+	private Instant effectiveFrom;
 	private Instant effectiveTo;
 //	private NotificationChannel notificationChannelId;
 //	private NotificationContentType notificationContentTypeId;
@@ -54,11 +54,11 @@ public class AddNotificationTemplateDto {
 	public void setMaxRetry(Integer maxRetry) {
 		this.maxRetry = maxRetry;
 	}
-	public Instant getEffectiveForm() {
-		return effectiveForm;
+	public Instant getEffectiveFrom() {
+		return effectiveFrom;
 	}
-	public void setEffectiveForm(Instant effectiveForm) {
-		this.effectiveForm = effectiveForm;
+	public void setEffectiveFrom(Instant effectiveForm) {
+		this.effectiveFrom = effectiveForm;
 	}
 	public Instant getEffectiveTo() {
 		return effectiveTo;

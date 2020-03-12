@@ -36,8 +36,8 @@ public class NotificationTemplate {
 	@Column(precision=1, scale=0,nullable = false)
 	private Integer maxRetry;
 	
-	@Column(nullable = false)
-	private Instant effectiveForm;
+	@Column(name = "effectiveForm",nullable = false)
+	private Instant effectiveFrom;
 	
 	@Column(nullable = false)
 	private Instant effectiveTo;
@@ -106,12 +106,12 @@ public class NotificationTemplate {
 		this.maxRetry = maxRetry;
 	}
 
-	public Instant getEffectiveForm() {
-		return effectiveForm;
+	public Instant getEffectiveFrom() {
+		return effectiveFrom;
 	}
 
-	public void setEffectiveForm(Instant effectiveForm) {
-		this.effectiveForm = effectiveForm;
+	public void setEffectiveFrom(Instant effectiveForm) {
+		this.effectiveFrom = effectiveForm;
 	}
 
 	public Instant getEffectiveTo() {

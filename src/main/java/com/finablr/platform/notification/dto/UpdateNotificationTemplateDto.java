@@ -7,7 +7,7 @@ public class UpdateNotificationTemplateDto {
 	private Long templateId;
 	private String templateSubject;
 	private String templateBody;
-	private Instant effectiveForm;
+	private Instant effectiveFrom;
 	private Instant effectiveTo;
 	public Long getTemplateId() {
 		return templateId;
@@ -27,11 +27,11 @@ public class UpdateNotificationTemplateDto {
 	public void setTemplateBody(String templateBody) {
 		this.templateBody = templateBody;
 	}
-	public Instant getEffectiveForm() {
-		return effectiveForm;
+	public Instant getEffectiveFrom() {
+		return effectiveFrom;
 	}
 	public void setEffectiveForm(Instant effectiveForm) {
-		this.effectiveForm = effectiveForm;
+		this.effectiveFrom = effectiveForm;
 	}
 	public Instant getEffectiveTo() {
 		return effectiveTo;
