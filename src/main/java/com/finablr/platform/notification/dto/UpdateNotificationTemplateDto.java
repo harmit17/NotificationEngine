@@ -2,12 +2,19 @@ package com.finablr.platform.notification.dto;
 
 import java.time.Instant;
 
+import com.sun.istack.NotNull;
+
 public class UpdateNotificationTemplateDto {
 	
+	@NotNull
 	private Long templateId;
+	@NotNull
 	private String templateSubject;
+	@NotNull
 	private String templateBody;
+	@NotNull
 	private Instant effectiveFrom;
+	@NotNull
 	private Instant effectiveTo;
 	public Long getTemplateId() {
 		return templateId;

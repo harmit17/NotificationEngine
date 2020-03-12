@@ -58,12 +58,12 @@ public class NotificationTemplateServiceImpl implements NotificationTemplateServ
 			throw new DataNotFoundException("Template Code Already Exists");
 		}
 		
-		if(notificationChannel.get().getChannelName()==null||notificationContentType.get().getName()==null||(notificationChannel.get().isDisable()==true||notificationContentType.get().isDisable()==true))
+		if(notificationChannel.get().getChannelName().isEmpty()||notificationContentType.get().getName().isEmpty()||(notificationChannel.get().isDisable()==true||notificationContentType.get().isDisable()==true))
 		{
 			throw new DataNotFoundException("NotificationChannelName or NotificationContentType Is Not found or NotificationChannelName or NotificationContentType Is Not enable");
 		}
 		
-		if(!(notificationChannel.get().getChannelName().equals("WhatsApp") && notificationContentType.get().getName().equals("text"))){
+		if((notificationChannel.get().getChannelName().equals("WhatsApp") && notificationContentType.get().getName().equals("html"))||(notificationChannel.get().getChannelName().equals("Email") && notificationContentType.get().getName().equals("image"))){
 					throw new DataNotFoundException("Channel is not competable with content type");
 				}
 		
@@ -78,12 +78,10 @@ public class NotificationTemplateServiceImpl implements NotificationTemplateServ
 
 	@Override
 	public Long updateNotificationTemplate(UpdateNotificationTemplateDto updateNotificationTemplateDto) {
-		NotificationTemplate notificationTemplate = modelMapper.map(updateNotificationTemplateDto,NotificationTemplate.class);
-		try{
-			notificationTemplate = notificationTemplateRepository
-					.findById(updateNotificationTemplateDto.getTemplateId()).get();
-		}
-		catch(Exception e){
+		//NotificationTemplate notificationTemplate = modelMapper.map(updateNotificationTemplateDto,NotificationTemplate.class);
+		Optional<NotificationTemplate> notificationTemplate = notificationTemplateRepository.findById(updateNotificationTemplateDto.getTemplateId());
+		if(!notificationTemplate.isPresent())
+		{
 			throw new DataNotFoundException("Template Not Found");
 		}
 		if(!(updateNotificationTemplateDto.getEffectiveFrom().isAfter(Instant.now()) && updateNotificationTemplateDto.getEffectiveTo().isAfter(Instant.now()))) {
@@ -94,13 +92,13 @@ public class NotificationTemplateServiceImpl implements NotificationTemplateServ
 			throw new DataNotFoundException("ToDate Should Be After FromDate");
 		}
 		
-		notificationTemplate.setTemplateSubject(updateNotificationTemplateDto.getTemplateSubject());
-		notificationTemplate.setTemplateBody(updateNotificationTemplateDto.getTemplateBody());
-		notificationTemplate.setEffectiveFrom(updateNotificationTemplateDto.getEffectiveFrom());
-		notificationTemplate.setEffectiveTo(updateNotificationTemplateDto.getEffectiveTo());
+		notificationTemplate.get().setTemplateSubject(updateNotificationTemplateDto.getTemplateSubject());
+		notificationTemplate.get().setTemplateBody(updateNotificationTemplateDto.getTemplateBody());
+		notificationTemplate.get().setEffectiveFrom(updateNotificationTemplateDto.getEffectiveFrom());
+		notificationTemplate.get().setEffectiveTo(updateNotificationTemplateDto.getEffectiveTo());
 		
-		notificationTemplateRepository.save(notificationTemplate);
-		return notificationTemplate.getTemplateId();
+		notificationTemplateRepository.save(notificationTemplate.get());
+		return notificationTemplate.get().getTemplateId();
 	}
 	
 	@SuppressWarnings("null")

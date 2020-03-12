@@ -1,5 +1,7 @@
 package com.finablr.platform.notification.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,13 +25,13 @@ public class NotificationTemplateController {
 	public NotificationTemplateService notificationTemplateService;
 	
 	@RequestMapping(value="/api/v1/notification-templates",method = RequestMethod.POST)
-	public Response<Long> addNotificationTemplateData(@RequestBody AddNotificationTemplateDto addNotificationTemplateDto)
+	public Response<Long> addNotificationTemplateData(@Valid @RequestBody AddNotificationTemplateDto addNotificationTemplateDto)
 	{
 		return new Response<Long>(HttpStatus.OK.value(),this.notificationTemplateService.addNotificationTemplate(addNotificationTemplateDto),"Notification Template Data Add Successfully",null);
 	}
 	
 	@RequestMapping(value="/api/v1/notification-templates",method = RequestMethod.PUT)
-	public Response<Long> updateNotificationTemplateData(@RequestBody UpdateNotificationTemplateDto updateNotificationTemplateDto)
+	public Response<Long> updateNotificationTemplateData(@Valid @RequestBody UpdateNotificationTemplateDto updateNotificationTemplateDto)
 	{
 		return new Response<Long>(HttpStatus.OK.value(),this.notificationTemplateService.updateNotificationTemplate(updateNotificationTemplateDto),"Notification Template Data Update Successfully",null);
 	}
