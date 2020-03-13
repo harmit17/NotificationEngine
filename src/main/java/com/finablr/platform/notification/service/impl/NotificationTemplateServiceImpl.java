@@ -96,12 +96,10 @@ public class NotificationTemplateServiceImpl implements NotificationTemplateServ
 		}
 		
 		NotificationTemplate notificationTemplate = modelMapper.map(addNotificationTemplateDto,NotificationTemplate.class);
-		notificationTemplate.setTemplateId(Long.valueOf(0));
 		notificationTemplate.setNotificationChannel(notificationChannel.get());
 		notificationTemplate.setNotificationContentType(notificationContentType.get());
 		
-		NotificationTemplate notificationTemplate1=notificationTemplateRepository.save(notificationTemplate);
-		return notificationTemplate1.getTemplateId();
+		return (notificationTemplateRepository.save(notificationTemplate)).getTemplateId();
 	}
 
 	@Override
