@@ -44,22 +44,22 @@ public class NotificationRequestServiceImpl implements NotificationRequestServic
 		if(notificationDto.getNotificationData().isEmpty())
 			throw new DataNotFoundException("Invalid input");
 		
-//		if(notificationDto.getReceipientDetails().isEmpty())
-//			throw new DataNotFoundException("Invalid input");
+		if(notificationDto.getReceipientDetails().isEmpty())
+			throw new DataNotFoundException("Invalid input");
 			
-		Optional<NotificationTemplate> notificationTemplate= notificationTemplateRepository.findByTemplateCode(notificationDto.getTemplateCode());
+		Optional<NotificationTemplate> notificationTemplate = notificationTemplateRepository.findByTemplateCode(notificationDto.getTemplateCode());
 		if(!notificationTemplate.isPresent())
 			throw new DataNotFoundException("Template Not Found");
 		
 		if(!time.isAfter(notificationTemplate.get().getEffectiveFrom()) && time.isBefore(notificationTemplate.get().getEffectiveTo()) )
 			throw new BusinessException("Template Not available");
 		
-//		if(!notificationTemplate.get().getNotificationChannel().isDisable())
-//			throw new BusinessException("Template Not Found");
+		if(!notificationTemplate.get().getNotificationChannel().isDisable())
+			throw new BusinessException("Template Not Found");
 		
 
-//		if(!notificationTemplate.get().getNotificationContentType().isDisable())
-//		throw new BusinessException("Template Not Found");
+		if(!notificationTemplate.get().getNotificationContentType().isDisable())
+		throw new BusinessException("Template Not Found");
 		
 		
 		NotificationRequest AddRequestMapper = modelmapper.map(notificationDto, NotificationRequest.class);

@@ -65,8 +65,8 @@ CREATE TABLE IF NOT EXISTS notification_request(
 	notification_subject varchar(255),
 	notification_body varchar(255),
 	request_status varchar(50) NOT null,
-	last_devivery_attempt datetime,
-	request_time datetime,
+	last_devivery_attempt datetime NOT null,
+	request_time datetime NOT null,
     notification_template_id BIGINT NOT null,
 	KEY notification_template_id (notification_template_id),
 	CONSTRAINT FK_notification_template_id FOREIGN KEY (notification_template_id) REFERENCES notification_template(template_id) ON DELETE RESTRICT ON UPDATE RESTRICT  
