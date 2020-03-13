@@ -2,11 +2,14 @@ package com.finablr.platform.notification.dto;
 
 import java.util.Map;
 
+import javax.validation.constraints.Positive;
+
 import com.sun.istack.NotNull;
 
 public class AddNotificationRequestDto {
 
 	@NotNull
+	@Positive
 	private String templateCode;
 	@NotNull
 	private Map<String, String> notificationData;

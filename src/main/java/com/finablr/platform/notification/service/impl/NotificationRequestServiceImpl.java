@@ -5,6 +5,9 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
 import com.finablr.platform.notification.domain.NotificationRequest;
@@ -13,12 +16,13 @@ import com.finablr.platform.notification.dto.AddNotificationRequestDto;
 import com.finablr.platform.notification.enumStatus.NotificationStatus;
 import com.finablr.platform.notification.exceptionhandler.model.BusinessException;
 import com.finablr.platform.notification.exceptionhandler.model.DataNotFoundException;
+import com.finablr.platform.notification.jmsconfiguration.JmsConfiguration;
 import com.finablr.platform.notification.repository.NotificationRequestRepository;
 import com.finablr.platform.notification.repository.NotificationTemplateRepository;
 import com.finablr.platform.notification.service.NotificationRequestService;
 
 @Service
-public class NotificationRequestImpl implements NotificationRequestService {
+public class NotificationRequestServiceImpl implements NotificationRequestService {
 
 	@Autowired
 	private NotificationRequestRepository notificationRequestRepository;
@@ -28,6 +32,9 @@ public class NotificationRequestImpl implements NotificationRequestService {
 
 	@Autowired
 	private ModelMapper modelmapper;
+	
+	@Autowired
+	JmsTemplate jmsTemplate;
 
 	@Override
 	public Long addRequest(AddNotificationRequestDto notificationDto) {
@@ -55,18 +62,21 @@ public class NotificationRequestImpl implements NotificationRequestService {
 //		throw new BusinessException("Template Not Found");
 		
 		
-		NotificationRequest getStatus = modelmapper.map(notificationDto, NotificationRequest.class);
-		System.out.println(notificationDto);
-		getStatus.setRetryCount(0);
-		getStatus.setStatus(NotificationStatus.PENDING.name());
-		getStatus.setRequestTime(Instant.now());
-		getStatus.setTemplateId(notificationTemplate.get());
+		NotificationRequest AddRequestMapper = modelmapper.map(notificationDto, NotificationRequest.class);
+		AddRequestMapper.setRetryCount(0);
+		AddRequestMapper.setStatus(NotificationStatus.PENDING.name());
+		AddRequestMapper.setRequestTime(Instant.now());
+		AddRequestMapper.setTemplateId(notificationTemplate.get());
 		for(String key:notificationDto.getNotificationData().keySet())  
 			notificationTemplate.get().getTemplateBody().replaceAll("\\{\\{"+ key +"\\}\\}", notificationDto.getNotificationData().get(key));	
-		getStatus.setNotificationBody(notificationTemplate.get().getTemplateBody());
-		getStatus.setNotificationSubject(notificationTemplate.get().getTemplateSubject());
-		notificationRequestRepository.save(getStatus);
-		return getStatus.getId();
+		AddRequestMapper.setNotificationBody(notificationTemplate.get().getTemplateBody());
+		AddRequestMapper.setNotificationSubject(notificationTemplate.get().getTemplateSubject());
+		notificationRequestRepository.save(AddRequestMapper);
+		
+		ConfigurableApplicationContext context = SpringApplication.run(JmsConfiguration.class);
+		jmsTemplate = context.getBean(JmsTemplate.class);
+		jmsTemplate.convertAndSend("jms.message.endpoint", AddRequestMapper);
+		return AddRequestMapper.getId();
 	}
 
 	@Override

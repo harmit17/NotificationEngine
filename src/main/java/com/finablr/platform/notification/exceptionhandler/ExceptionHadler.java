@@ -37,5 +37,5 @@ public class ExceptionHadler extends ResponseEntityExceptionHandler {
 	public final Response<?> handleUserNotFoundException(BusinessException ex, WebRequest request) {
 		return new Response<>(HttpStatus.NOT_FOUND.value(), null, ex.getMessage(), null);
 	}
-
+		
 }
