@@ -1,35 +1,40 @@
 package com.finablr.platform.notification.jmsconfiguration;
 
+import java.util.Arrays;
+
 import javax.jms.ConnectionFactory;
 
-import org.springframework.boot.autoconfigure.jms.DefaultJmsListenerContainerFactoryConfigurer;
+import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jms.annotation.EnableJms;
-import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
-import org.springframework.jms.config.JmsListenerContainerFactory;
-import org.springframework.jms.support.converter.MappingJackson2MessageConverter;
-import org.springframework.jms.support.converter.MessageConverter;
+import org.springframework.jms.core.JmsTemplate;
 
 
 @Configuration
 @EnableJms
 public class JmsConfiguration {
-
+	
+	private static final String DEFAULT_BROKER_URL="tcp://localhost:61616";
+	private static final String MESSAGE_QUEUE="message_queue";
+	
 	@Bean
-	public JmsListenerContainerFactory<?> myFactory(ConnectionFactory connectionFactory,
-		DefaultJmsListenerContainerFactoryConfigurer configurer) {
-		DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-		configurer.configure(factory, connectionFactory);
-		return factory;
+	public ConnectionFactory connectionFactory()
+	{
+		ActiveMQConnectionFactory connectionFactory=new ActiveMQConnectionFactory();
+		connectionFactory.setBrokerURL(DEFAULT_BROKER_URL);
+		connectionFactory.setTrustedPackages(Arrays.asList("com.finablr.platform.notification"));
+		connectionFactory.setTrustAllPackages(true);
+		return connectionFactory;	
 	}
-
+	
 	@Bean
-	public MessageConverter jacksonJmsMessageConverter() {
-		MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
-		//converter.setTargetType(MessageType.);
-		converter.setTypeIdPropertyName("_type");
-		return converter;
+	public JmsTemplate jmsTemplate()
+	{
+		JmsTemplate template=new JmsTemplate();
+		template.setConnectionFactory(connectionFactory());
+		template.setDefaultDestinationName(MESSAGE_QUEUE);
+		return template;
 	}
-
 }
+

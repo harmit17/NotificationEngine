@@ -26,8 +26,7 @@ public class NotificationRequestController {
 	 */
 	@PostMapping("/api/v1/notification-requests")
 	public Response<Long> addNotificationRequest(@Valid @RequestBody AddNotificationRequestDto notificationDto) {
-		return new Response<Long>(HttpStatus.OK.value(), notificationRequestService.addRequest(notificationDto),
-				"Successfully Add Request", null);
+		return new Response<Long>(HttpStatus.OK.value(), notificationRequestService.addRequest(notificationDto),"Successfully Add Request", null);
 	}
 
 	/*

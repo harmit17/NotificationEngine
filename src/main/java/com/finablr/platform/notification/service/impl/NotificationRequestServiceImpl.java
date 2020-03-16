@@ -14,6 +14,7 @@ import com.finablr.platform.notification.dto.AddNotificationRequestDto;
 import com.finablr.platform.notification.enumStatus.NotificationStatus;
 import com.finablr.platform.notification.exceptionhandler.model.BusinessException;
 import com.finablr.platform.notification.exceptionhandler.model.DataNotFoundException;
+import com.finablr.platform.notification.jmsconfiguration.MessageSender;
 import com.finablr.platform.notification.repository.NotificationRequestRepository;
 import com.finablr.platform.notification.repository.NotificationTemplateRepository;
 import com.finablr.platform.notification.service.NotificationRequestService;
@@ -32,6 +33,9 @@ public class NotificationRequestServiceImpl implements NotificationRequestServic
 	
 	@Autowired
 	JmsTemplate jmsTemplate;
+	
+	@Autowired
+	MessageSender messageSender;
 
 	@Override
 	public Long addRequest(AddNotificationRequestDto addNotificationRequestDto) {
@@ -70,13 +74,10 @@ public class NotificationRequestServiceImpl implements NotificationRequestServic
 //		for(String key:addNotificationRequestDto.getNotificationData().keySet())  
 //			notificationTemplate.getTemplateSubject().replaceAll("\\{\\{"+ key +"\\}\\}", addNotificationRequestDto.getNotificationData().get(key));
 		notificationRequest.setNotificationSubject(notificationTemplate.getTemplateSubject());
+		notificationRequestRepository.save(notificationRequest);
 		
-		return notificationRequestRepository.save(notificationRequest).getId();
-		
-//		ConfigurableApplicationContext context = SpringApplication.run(JmsConfiguration.class);
-//		jmsTemplate = context.getBean(JmsTemplate.class);
-//		jmsTemplate.convertAndSend("jms.message.endpoint", AddRequestMapper);
-//		return AddRequestMapper.getId();
+		//messageSender.sendMessage(notificationRequest);
+		return notificationRequest.getId();
 	}
 
 	@Override
