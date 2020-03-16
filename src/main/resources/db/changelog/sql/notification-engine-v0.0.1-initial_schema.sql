@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS notification_request(
 	notification_subject varchar(255) NOT null,
 	notification_body varchar(255) NOT null,
 	request_status varchar(50) NOT null,
-	last_delivery_attempt datetime NOT null,
+	last_devivery_attempt datetime NOT null,
 	request_time datetime NOT null,
     notification_template_id BIGINT NOT null,
 	KEY notification_template_id (notification_template_id),

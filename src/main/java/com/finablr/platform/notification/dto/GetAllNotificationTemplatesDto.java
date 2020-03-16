@@ -8,7 +8,7 @@ import java.time.Instant;
 
 public class GetAllNotificationTemplatesDto {
 
-	private Long id;
+	private Long templateId;
 
 	private String templateCode;
 
@@ -30,12 +30,12 @@ public class GetAllNotificationTemplatesDto {
 
 	private Long notificationContentTypeId;
 	
-	public Long getId() {
-		return id;
+	public Long getTemplateId() {
+		return templateId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setTemplateId(Long templateId) {
+		this.templateId = templateId;
 	}
 
 	public String getTemplateCode() {
@@ -117,5 +117,5 @@ public class GetAllNotificationTemplatesDto {
 	public void setNotificationContentTypeId(Long notificationContentTypeId) {
 		this.notificationContentTypeId = notificationContentTypeId;
 	}
-	
+
 }
