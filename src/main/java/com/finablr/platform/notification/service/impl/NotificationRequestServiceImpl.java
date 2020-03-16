@@ -5,8 +5,6 @@ import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.SpringApplication;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +14,6 @@ import com.finablr.platform.notification.dto.AddNotificationRequestDto;
 import com.finablr.platform.notification.enumStatus.NotificationStatus;
 import com.finablr.platform.notification.exceptionhandler.model.BusinessException;
 import com.finablr.platform.notification.exceptionhandler.model.DataNotFoundException;
-import com.finablr.platform.notification.jmsconfiguration.JmsConfiguration;
 import com.finablr.platform.notification.repository.NotificationRequestRepository;
 import com.finablr.platform.notification.repository.NotificationTemplateRepository;
 import com.finablr.platform.notification.service.NotificationRequestService;
@@ -37,46 +34,49 @@ public class NotificationRequestServiceImpl implements NotificationRequestServic
 	JmsTemplate jmsTemplate;
 
 	@Override
-	public Long addRequest(AddNotificationRequestDto notificationDto) {
+	public Long addRequest(AddNotificationRequestDto addNotificationRequestDto) {
 		
 		Instant time = Instant.now();
 		
-		if(notificationDto.getNotificationData().isEmpty())
-			throw new DataNotFoundException("Invalid input");
-		
-		if(notificationDto.getReceipientDetails().isEmpty())
-			throw new DataNotFoundException("Invalid input");
+		if(addNotificationRequestDto.getReceipientDetails().isEmpty())
+			throw new DataNotFoundException("Bad Request");
 			
-		Optional<NotificationTemplate> notificationTemplate = notificationTemplateRepository.findByTemplateCode(notificationDto.getTemplateCode());
-		if(!notificationTemplate.isPresent())
+		NotificationTemplate notificationTemplate = notificationTemplateRepository.findByTemplateCode(addNotificationRequestDto.getTemplateCode());
+		
+		if(notificationTemplate == null)
 			throw new DataNotFoundException("Template Not Found");
 		
-		if(!time.isAfter(notificationTemplate.get().getEffectiveFrom()) && time.isBefore(notificationTemplate.get().getEffectiveTo()) )
+		if(time.isBefore(notificationTemplate.getEffectiveFrom()) || time.isAfter(notificationTemplate.getEffectiveTo()))
 			throw new BusinessException("Template Not available");
 		
-		if(!notificationTemplate.get().getNotificationChannel().isDisable())
+		if(notificationTemplate.getNotificationChannel().isDisable())
 			throw new BusinessException("Template Not Found");
 		
 
-		if(!notificationTemplate.get().getNotificationContentType().isDisable())
-		throw new BusinessException("Template Not Found");
+		if(notificationTemplate.getNotificationContentType().isDisable())
+			throw new BusinessException("Template Not Found");
 		
 		
-		NotificationRequest AddRequestMapper = modelmapper.map(notificationDto, NotificationRequest.class);
-		AddRequestMapper.setRetryCount(0);
-		AddRequestMapper.setStatus(NotificationStatus.PENDING.name());
-		AddRequestMapper.setRequestTime(Instant.now());
-		AddRequestMapper.setTemplateId(notificationTemplate.get());
-		for(String key:notificationDto.getNotificationData().keySet())  
-			notificationTemplate.get().getTemplateBody().replaceAll("\\{\\{"+ key +"\\}\\}", notificationDto.getNotificationData().get(key));	
-		AddRequestMapper.setNotificationBody(notificationTemplate.get().getTemplateBody());
-		AddRequestMapper.setNotificationSubject(notificationTemplate.get().getTemplateSubject());
-		notificationRequestRepository.save(AddRequestMapper);
+		NotificationRequest notificationRequestMapper = modelmapper.map(addNotificationRequestDto, NotificationRequest.class);
+		notificationRequestMapper.setRetryCount(0);
+		notificationRequestMapper.setStatus(NotificationStatus.PENDING.name());
+		notificationRequestMapper.setRequestTime(Instant.now());
+		notificationRequestMapper.setTemplateId(notificationTemplate);
 		
-		ConfigurableApplicationContext context = SpringApplication.run(JmsConfiguration.class);
-		jmsTemplate = context.getBean(JmsTemplate.class);
-		jmsTemplate.convertAndSend("jms.message.endpoint", AddRequestMapper);
-		return AddRequestMapper.getId();
+//		for(String key:addNotificationRequestDto.getNotificationData().keySet())  
+//			notificationTemplate.getTemplateBody().replaceAll("\\{\\{"+ key +"\\}\\}", addNotificationRequestDto.getNotificationData().get(key));	
+		notificationRequestMapper.setNotificationBody(notificationTemplate.getTemplateBody());
+		
+//		for(String key:addNotificationRequestDto.getNotificationData().keySet())  
+//			notificationTemplate.getTemplateSubject().replaceAll("\\{\\{"+ key +"\\}\\}", addNotificationRequestDto.getNotificationData().get(key));
+		notificationRequestMapper.setNotificationSubject(notificationTemplate.getTemplateSubject());
+		
+		return notificationRequestRepository.save(notificationRequestMapper).getId();
+		
+//		ConfigurableApplicationContext context = SpringApplication.run(JmsConfiguration.class);
+//		jmsTemplate = context.getBean(JmsTemplate.class);
+//		jmsTemplate.convertAndSend("jms.message.endpoint", AddRequestMapper);
+//		return AddRequestMapper.getId();
 	}
 
 	@Override

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.finablr.platform.notification.exceptionhandler.model.BadInputException;
@@ -19,23 +20,31 @@ public class ExceptionHadler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(DataNotFoundException.class)
 	@ResponseBody
 	@ResponseStatus(code = HttpStatus.OK)
-	public final Response<?> handleUserNotFoundException(DataNotFoundException ex, WebRequest request) {
-		return new Response<>(HttpStatus.OK.value(), null, ex.getMessage(), null);
+	public final Response<?> DataNotFoundException(DataNotFoundException ex, WebRequest request) {
+		return new Response<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null, ex.getMessage(), null);
 	}
 
 	@ExceptionHandler(BadInputException.class)
-	public final Response<?> handleUserNotFoundException(BadInputException ex, WebRequest request) {
-		return new Response<>(HttpStatus.OK.value(), null, ex.getMessage(), null);
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public final Response<?> badInputException(BadInputException ex, WebRequest request) {
+		return new Response<>(HttpStatus.BAD_REQUEST.value(), null, ex.getMessage(), null);
 	}
 	
 	@ExceptionHandler(RuntimeException.class)
-	public final Response<?> handleUserNotFoundException(RuntimeException ex, WebRequest request) {
+	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+	public final Response<?> runTimeException(RuntimeException ex, WebRequest request) {
 		return new Response<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null, ex.getMessage(), null);
 	}
 	
 	@ExceptionHandler(BusinessException.class)
-	public final Response<?> handleUserNotFoundException(BusinessException ex, WebRequest request) {
-		return new Response<>(HttpStatus.NOT_FOUND.value(), null, ex.getMessage(), null);
+	@ResponseStatus(code = HttpStatus.FORBIDDEN)
+	public final Response<?> BusinessException(BusinessException ex, WebRequest request) {
+		return new Response<>(HttpStatus.FORBIDDEN.value(), null, ex.getMessage(), null);
 	}
-		
+	
+	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	public final Response<?> argumentTypeMismatchException(MethodArgumentTypeMismatchException ex, WebRequest request) {
+		return new Response<>(HttpStatus.BAD_REQUEST.value(), null, "Only Numeric Value Allow", null);
+	}		
 }

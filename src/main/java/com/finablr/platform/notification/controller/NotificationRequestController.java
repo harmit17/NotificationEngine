@@ -5,14 +5,11 @@ import javax.validation.constraints.NotBlank;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import com.finablr.platform.notification.dto.AddNotificationRequestDto;
 import com.finablr.platform.notification.service.NotificationRequestService;
@@ -22,14 +19,14 @@ import com.finablr.platform.notification.util.Response;
 public class NotificationRequestController {
 
 	@Autowired
-	public NotificationRequestService service;
+	public NotificationRequestService notificationRequestService;
 
 	/*
 	 * Add notification request controller method
 	 */
 	@PostMapping("/api/v1/notification-requests")
 	public Response<Long> addNotificationRequest(@Valid @RequestBody AddNotificationRequestDto notificationDto) {
-		return new Response<Long>(HttpStatus.OK.value(), service.addRequest(notificationDto),
+		return new Response<Long>(HttpStatus.OK.value(), notificationRequestService.addRequest(notificationDto),
 				"Successfully Add Request", null);
 	}
 
@@ -38,13 +35,13 @@ public class NotificationRequestController {
 	 */
 	@GetMapping("/api/v1/notification-requests/status/{id}")
 	public Response<String> getNotificationStatus(@NotBlank @PathVariable Long id) {
-		return new Response<String>(HttpStatus.OK.value(), service.getStatus(id), "Successfully retrive", null);
+		return new Response<String>(HttpStatus.OK.value(), notificationRequestService.getStatus(id), "Successfully retrive", null);
 	}
 	
-	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
-	public final Response<?> handleUserNotFoundException(MethodArgumentTypeMismatchException ex, WebRequest request) {
-		return new Response<>(HttpStatus.NOT_FOUND.value(), null, "Only Numeric Value Allow", null);
-	}
+//	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+//	public final Response<?> handleUserNotFoundException(MethodArgumentTypeMismatchException ex, WebRequest request) {
+//		return new Response<>(HttpStatus.NOT_FOUND.value(), null, "Only Numeric Value Allow", null);
+//	}
 	
 //	@ExceptionHandler(Exception.class)
 //	public final Response<?> handleUserNotFoundException(Exception ex, WebRequest request) {
