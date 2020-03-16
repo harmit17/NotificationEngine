@@ -5,6 +5,9 @@ import java.util.Map;
 public class MergePlaceHolder {
 		
 	public static String replacePlaceholders(Map<String, String> templateData, String templateBody) {
+		if(templateData.isEmpty()||templateBody.isEmpty()) {
+			return templateBody;
+		}
 		for(String key : templateData.keySet()) {
 			templateBody = templateBody.replaceAll("\\{\\{"+key+"\\}\\}", templateData.get(key));
 		}
