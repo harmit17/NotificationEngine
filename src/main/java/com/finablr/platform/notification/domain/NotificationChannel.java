@@ -15,7 +15,7 @@ public class NotificationChannel {
 	private Long channelId;
 	@Column(name="channel_name", nullable = false)
 	private String channelName;
-	@Column(name= "is_disable", nullable = false)
+	@Column(nullable = false)
 	private boolean isDisable;
 
 	public Long getChannelId() {

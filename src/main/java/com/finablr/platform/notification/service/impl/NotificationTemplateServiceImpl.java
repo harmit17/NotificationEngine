@@ -1,9 +1,8 @@
 package com.finablr.platform.notification.service.impl;
 
-
-
 import java.time.Instant;
 import java.util.Map;
+import java.util.Optional;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +14,7 @@ import com.finablr.platform.notification.dto.DownloadNotificationTemplateDto;
 import com.finablr.platform.notification.dto.GetAllNotificationTemplatesDto;
 import com.finablr.platform.notification.dto.NotificationTemplateFileDto;
 
-
 import org.springframework.stereotype.Service;
-
 
 import com.finablr.platform.notification.exceptionhandler.model.DataNotFoundException;
 import com.finablr.platform.notification.repository.NotificationTemplateRepository;
@@ -32,7 +29,6 @@ public class NotificationTemplateServiceImpl implements NotificationTemplateServ
 
 	@Autowired
 	private ModelMapper modelMapper;
-
 
 	@Override
 	public void addNotificationTemplate() {
@@ -53,36 +49,34 @@ public class NotificationTemplateServiceImpl implements NotificationTemplateServ
 		if (notificationTemplates.getContent().isEmpty()) {
 			throw new DataNotFoundException("No templates Found");
 		}
-		Page<GetAllNotificationTemplatesDto> notificationTemplatePages = notificationTemplates.map(notificationTemplate -> {
-			GetAllNotificationTemplatesDto getAllNotificationTemplatesDto = new GetAllNotificationTemplatesDto();
-			modelMapper.map(notificationTemplate, getAllNotificationTemplatesDto);
-			return getAllNotificationTemplatesDto;
-		});
+		Page<GetAllNotificationTemplatesDto> notificationTemplatePages = notificationTemplates
+				.map(notificationTemplate -> {
+					GetAllNotificationTemplatesDto getAllNotificationTemplatesDto = new GetAllNotificationTemplatesDto();
+					modelMapper.map(notificationTemplate, getAllNotificationTemplatesDto);
+					return getAllNotificationTemplatesDto;
+				});
 		return notificationTemplatePages;
 	}
 
 	@Override
 	public NotificationTemplateFileDto downloadNotificationTemplateFile(
 			DownloadNotificationTemplateDto downloadNotificationTemplateDto) {
-		NotificationTemplate notificationTemplate;
-		try{
-			notificationTemplate = notificationTemplateRepository.findById(downloadNotificationTemplateDto.getId()).get();
-		}
-		catch(Exception exception) {
+		Optional<NotificationTemplate> notificationTemplate;
+		notificationTemplate = notificationTemplateRepository.findById(downloadNotificationTemplateDto.getId());
+		if (notificationTemplate.isPresent()) {
 			throw new DataNotFoundException("Template Not Found");
 		}
-		if(!(notificationTemplate.getEffectiveFrom().isBefore(Instant.now()) && notificationTemplate.getEffectiveTo().isAfter(Instant.now()))) {
+
+		if (!(notificationTemplate.get().getEffectiveFrom().isBefore(Instant.now())
+				&& notificationTemplate.get().getEffectiveTo().isAfter(Instant.now()))) {
 			throw new DataNotFoundException("Template Expired");
 		}
-		Map<String , String> templateData = downloadNotificationTemplateDto.getNotificationData();
-		notificationTemplate.setTemplateBody(new MergePlaceHolder().replacePlaceholders(templateData,notificationTemplate.getTemplateBody()));
-		NotificationTemplateFileDto notificationTemplateFileDto = modelMapper.map(notificationTemplate, NotificationTemplateFileDto.class);
+		Map<String, String> templateData = downloadNotificationTemplateDto.getNotificationData();
+		notificationTemplate.get().setTemplateBody(
+				new MergePlaceHolder().replacePlaceholders(templateData, notificationTemplate.get().getTemplateBody()));
+		NotificationTemplateFileDto notificationTemplateFileDto = modelMapper.map(notificationTemplate,
+				NotificationTemplateFileDto.class);
 		return notificationTemplateFileDto;
 	}
 
-	
-	
-	
-
-	
 }
