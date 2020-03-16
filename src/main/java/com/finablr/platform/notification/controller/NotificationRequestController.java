@@ -37,16 +37,5 @@ public class NotificationRequestController {
 	public Response<String> getNotificationStatus(@NotBlank @PathVariable Long id) {
 		return new Response<String>(HttpStatus.OK.value(), notificationRequestService.getStatus(id), "Successfully retrive", null);
 	}
-	
-//	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
-//	public final Response<?> handleUserNotFoundException(MethodArgumentTypeMismatchException ex, WebRequest request) {
-//		return new Response<>(HttpStatus.NOT_FOUND.value(), null, "Only Numeric Value Allow", null);
-//	}
-	
-//	@ExceptionHandler(Exception.class)
-//	public final Response<?> handleUserNotFoundException(Exception ex, WebRequest request) {
-//		ex.printStackTrace();
-//		return null;
-//	}
 
 }
