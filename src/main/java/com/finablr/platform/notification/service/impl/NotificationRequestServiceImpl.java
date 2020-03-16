@@ -39,7 +39,7 @@ public class NotificationRequestServiceImpl implements NotificationRequestServic
 		Instant time = Instant.now();
 		
 		if(addNotificationRequestDto.getReceipientDetails().isEmpty())
-			throw new DataNotFoundException("Bad Request");
+			throw new DataNotFoundException("Receipient Detail can't be null");
 			
 		NotificationTemplate notificationTemplate = notificationTemplateRepository.findByTemplateCode(addNotificationRequestDto.getTemplateCode());
 		
@@ -57,21 +57,21 @@ public class NotificationRequestServiceImpl implements NotificationRequestServic
 			throw new BusinessException("Template Not Found");
 		
 		
-		NotificationRequest notificationRequestMapper = modelmapper.map(addNotificationRequestDto, NotificationRequest.class);
-		notificationRequestMapper.setRetryCount(0);
-		notificationRequestMapper.setStatus(NotificationStatus.PENDING.name());
-		notificationRequestMapper.setRequestTime(Instant.now());
-		notificationRequestMapper.setTemplateId(notificationTemplate);
+		NotificationRequest notificationRequest = modelmapper.map(addNotificationRequestDto, NotificationRequest.class);
+		notificationRequest.setRetryCount(0);
+		notificationRequest.setStatus(NotificationStatus.PENDING.name());
+		notificationRequest.setRequestTime(Instant.now());
+		notificationRequest.setTemplateId(notificationTemplate);
 		
 //		for(String key:addNotificationRequestDto.getNotificationData().keySet())  
 //			notificationTemplate.getTemplateBody().replaceAll("\\{\\{"+ key +"\\}\\}", addNotificationRequestDto.getNotificationData().get(key));	
-		notificationRequestMapper.setNotificationBody(notificationTemplate.getTemplateBody());
+		notificationRequest.setNotificationBody(notificationTemplate.getTemplateBody());
 		
 //		for(String key:addNotificationRequestDto.getNotificationData().keySet())  
 //			notificationTemplate.getTemplateSubject().replaceAll("\\{\\{"+ key +"\\}\\}", addNotificationRequestDto.getNotificationData().get(key));
-		notificationRequestMapper.setNotificationSubject(notificationTemplate.getTemplateSubject());
+		notificationRequest.setNotificationSubject(notificationTemplate.getTemplateSubject());
 		
-		return notificationRequestRepository.save(notificationRequestMapper).getId();
+		return notificationRequestRepository.save(notificationRequest).getId();
 		
 //		ConfigurableApplicationContext context = SpringApplication.run(JmsConfiguration.class);
 //		jmsTemplate = context.getBean(JmsTemplate.class);
