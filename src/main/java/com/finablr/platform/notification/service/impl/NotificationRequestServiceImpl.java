@@ -18,6 +18,7 @@ import com.finablr.platform.notification.jmsconfiguration.MessageSender;
 import com.finablr.platform.notification.repository.NotificationRequestRepository;
 import com.finablr.platform.notification.repository.NotificationTemplateRepository;
 import com.finablr.platform.notification.service.NotificationRequestService;
+import com.finablr.platform.notification.util.MergePlaceHolder;
 
 @Service
 public class NotificationRequestServiceImpl implements NotificationRequestService {
@@ -66,13 +67,13 @@ public class NotificationRequestServiceImpl implements NotificationRequestServic
 		notificationRequest.setStatus(NotificationStatus.PENDING.name());
 		notificationRequest.setRequestTime(Instant.now());
 		notificationRequest.setTemplateId(notificationTemplate);
+		String templateBody = notificationTemplate.getTemplateBody();
+		String templateSubject = notificationTemplate.getTemplateSubject();
 		
-//		for(String key:addNotificationRequestDto.getNotificationData().keySet())  
-//			notificationTemplate.getTemplateBody().replaceAll("\\{\\{"+ key +"\\}\\}", addNotificationRequestDto.getNotificationData().get(key));	
+		notificationTemplate.setTemplateBody(MergePlaceHolder.replacePlaceholders(addNotificationRequestDto.getNotificationData(), templateBody));
 		notificationRequest.setNotificationBody(notificationTemplate.getTemplateBody());
 		
-//		for(String key:addNotificationRequestDto.getNotificationData().keySet())  
-//			notificationTemplate.getTemplateSubject().replaceAll("\\{\\{"+ key +"\\}\\}", addNotificationRequestDto.getNotificationData().get(key));
+		notificationTemplate.setTemplateBody(MergePlaceHolder.replacePlaceholders(addNotificationRequestDto.getNotificationData(), templateSubject));
 		notificationRequest.setNotificationSubject(notificationTemplate.getTemplateSubject());
 		notificationRequestRepository.save(notificationRequest);
 		
