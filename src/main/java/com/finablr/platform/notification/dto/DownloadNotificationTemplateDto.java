@@ -2,8 +2,10 @@ package com.finablr.platform.notification.dto;
 
 import java.util.Map;
 
+import javax.validation.constraints.NotNull;
+
 public class DownloadNotificationTemplateDto {
-	
+	@NotNull
 	private Long id;
 	
 	private Map<String, String> notificationData;

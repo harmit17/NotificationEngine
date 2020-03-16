@@ -3,6 +3,7 @@ package com.finablr.platform.notification.dto;
 import java.time.Instant;
 
 public class NotificationTemplateFileDto {
+	
 	private Long templateId;
 
 	private String templateCode;

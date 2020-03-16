@@ -4,7 +4,7 @@ import java.util.Map;
 
 public class MergePlaceHolder {
 		
-	public String replacePlaceholders(Map<String, String> templateData, String templateBody) {
+	public static String replacePlaceholders(Map<String, String> templateData, String templateBody) {
 		for(String key : templateData.keySet()) {
 			templateBody = templateBody.replaceAll("\\{\\{"+key+"\\}\\}", templateData.get(key));
 		}

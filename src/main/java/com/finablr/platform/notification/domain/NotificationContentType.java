@@ -19,7 +19,7 @@ public class NotificationContentType {
 	@Column(name = "ct_name", nullable = false)
 	private String name;
 
-	@Column(nullable = false)
+	@Column(name = "is_disable",nullable = false)
 	private boolean isDisable;
 
 	public Long getId() {

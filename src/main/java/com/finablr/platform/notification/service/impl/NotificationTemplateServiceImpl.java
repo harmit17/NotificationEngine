@@ -165,9 +165,9 @@ public class NotificationTemplateServiceImpl implements NotificationTemplateServ
 		String templateBody = notificationTemplate.get().getTemplateBody();
 		String templateSubject = notificationTemplate.get().getTemplateSubject();
 		notificationTemplate.get()
-				.setTemplateBody(new MergePlaceHolder().replacePlaceholders(templateData, templateBody));
+				.setTemplateBody(MergePlaceHolder.replacePlaceholders(templateData, templateBody));
 		notificationTemplate.get()
-				.setTemplateSubject(new MergePlaceHolder().replacePlaceholders(templateData, templateSubject));
+				.setTemplateSubject(MergePlaceHolder.replacePlaceholders(templateData, templateSubject));
 		NotificationTemplateFileDto notificationTemplateFileDto = modelMapper.map(notificationTemplate.get(),
 				NotificationTemplateFileDto.class);
 		return notificationTemplateFileDto;

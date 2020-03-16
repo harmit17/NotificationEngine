@@ -28,21 +28,25 @@ public class NotificationTemplateController {
 
 	@Autowired
 	public NotificationTemplateService notificationTemplateService;
-	
-	@RequestMapping(value="/api/v1/notification-templates",method = RequestMethod.POST)
-	public Response<Long> addNotificationTemplateData(@Valid @RequestBody AddNotificationTemplateDto addNotificationTemplateDto)
-	{
-		return new Response<Long>(HttpStatus.OK.value(),this.notificationTemplateService.addNotificationTemplate(addNotificationTemplateDto),"Notification Template Data Add Successfully",null);
+
+	@RequestMapping(value = "/api/v1/notification-templates", method = RequestMethod.POST)
+	public Response<Long> addNotificationTemplateData(
+			@Valid @RequestBody AddNotificationTemplateDto addNotificationTemplateDto) {
+		return new Response<Long>(HttpStatus.OK.value(),
+				this.notificationTemplateService.addNotificationTemplate(addNotificationTemplateDto),
+				"Notification Template Data Add Successfully", null);
 	}
-	
-	@RequestMapping(value="/api/v1/notification-templates",method = RequestMethod.PUT)
-	public Response<Long> updateNotificationTemplateData(@Valid @RequestBody UpdateNotificationTemplateDto updateNotificationTemplateDto)
-	{
-		return new Response<Long>(HttpStatus.OK.value(),this.notificationTemplateService.updateNotificationTemplate(updateNotificationTemplateDto),"Notification Template Data Update Successfully",null);
+
+	@RequestMapping(value = "/api/v1/notification-templates", method = RequestMethod.PUT)
+	public Response<Long> updateNotificationTemplateData(
+			@Valid @RequestBody UpdateNotificationTemplateDto updateNotificationTemplateDto) {
+		return new Response<Long>(HttpStatus.OK.value(),
+				this.notificationTemplateService.updateNotificationTemplate(updateNotificationTemplateDto),
+				"Notification Template Data Update Successfully", null);
 	}
-	
+
 	@GetMapping("/api/v1/notification-templates")
-	public Response<Page<GetAllNotificationTemplatesDto>> getAllNotificationsData(Pageable pageable) {
+	public Response<Page<GetAllNotificationTemplatesDto>> getAllNotificationsData(@Valid Pageable pageable) {
 		return new Response<Page<GetAllNotificationTemplatesDto>>(HttpStatus.OK.value(),
 				notificationTemplateService.getAllNotificationTemplates(pageable), "Successfully Retrived", null);
 
@@ -50,7 +54,9 @@ public class NotificationTemplateController {
 
 	@PostMapping("/api/v1/notification-templates/download")
 	public Response<NotificationTemplateFileDto> getNotificationTemplateFile(
-			@RequestBody DownloadNotificationTemplateDto downloadNotificationTemplateDto) {
-		return new Response<NotificationTemplateFileDto>(HttpStatus.OK.value(),notificationTemplateService.downloadNotificationTemplateFile(downloadNotificationTemplateDto),"Successfully Retrived",null);
+			@Valid @RequestBody DownloadNotificationTemplateDto downloadNotificationTemplateDto) {
+		return new Response<NotificationTemplateFileDto>(HttpStatus.OK.value(),
+				notificationTemplateService.downloadNotificationTemplateFile(downloadNotificationTemplateDto),
+				"Successfully Retrived", null);
 	}
 }
