@@ -52,6 +52,7 @@ public class NotificationTemplate {
 
 	public Long getTemplateId() {
 		return templateId;
+
 	}
 
 	public void setTemplateId(Long templateId) {
