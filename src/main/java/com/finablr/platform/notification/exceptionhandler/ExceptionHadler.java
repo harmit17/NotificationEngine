@@ -52,6 +52,7 @@ public class ExceptionHadler {
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	@ResponseBody
 	public final Response<?> argumentTypeMismatchException(MethodArgumentNotValidException ex, WebRequest request) {
 		return new Response<>(HttpStatus.BAD_REQUEST.value(), null, "Only Numeric Value Allow", null);
 	}
