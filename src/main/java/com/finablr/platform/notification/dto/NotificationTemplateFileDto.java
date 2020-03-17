@@ -2,12 +2,8 @@ package com.finablr.platform.notification.dto;
 
 import java.time.Instant;
 
-
-
-
-
-public class GetAllNotificationTemplatesDto {
-
+public class NotificationTemplateFileDto {
+	
 	private Long templateId;
 
 	private String templateCode;
@@ -29,12 +25,12 @@ public class GetAllNotificationTemplatesDto {
 	private Long notificationChannelId;
 
 	private Long notificationContentTypeId;
-	
-	public Long getTemplateId() {
+
+	public Long getId() {
 		return templateId;
 	}
 
-	public void setTemplateId(Long templateId) {
+	public void setId(Long templateId) {
 		this.templateId = templateId;
 	}
 
@@ -117,5 +113,7 @@ public class GetAllNotificationTemplatesDto {
 	public void setNotificationContentTypeId(Long notificationContentTypeId) {
 		this.notificationContentTypeId = notificationContentTypeId;
 	}
+	
+	
 
 }

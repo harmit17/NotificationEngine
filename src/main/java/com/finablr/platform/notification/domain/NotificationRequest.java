@@ -1,11 +1,11 @@
 package com.finablr.platform.notification.domain;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Convert;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -19,7 +19,7 @@ import com.finablr.platform.notification.convert.TypeConvert;
 
 @Entity
 @Table(name = "notification_request")
-public class NotificationRequest {
+public class NotificationRequest implements Serializable {
 
 	@Id
 	@Column(name = "request_id")
