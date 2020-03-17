@@ -26,6 +26,7 @@ public class ExceptionHadler {
 
 	@ExceptionHandler(BadInputException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	@ResponseBody
 	public final Response<?> badInputException(BadInputException ex, WebRequest request) {
 		return new Response<>(HttpStatus.BAD_REQUEST.value(), null, ex.getMessage(), null);
 	}
@@ -39,6 +40,7 @@ public class ExceptionHadler {
 
 	@ExceptionHandler(BusinessException.class)
 	@ResponseStatus(code = HttpStatus.FORBIDDEN)
+	@ResponseBody
 	public final Response<?> BusinessException(BusinessException ex, WebRequest request) {
 		return new Response<>(HttpStatus.FORBIDDEN.value(), null, ex.getMessage(), null);
 	}
