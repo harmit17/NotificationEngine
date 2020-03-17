@@ -20,6 +20,8 @@ import com.finablr.platform.notification.convert.TypeConvert;
 @Table(name = "notification_request")
 public class NotificationRequest implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@Column(name = "request_id")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -13,6 +13,8 @@ import javax.persistence.Table;
 @Table(name = "notification_content_type")
 public class NotificationContentType implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ct_id")
