@@ -89,7 +89,7 @@
 					                   
 					<username>root</username>
 					                   
-					<password></password>
+					<password>root</password>
 					                   
 					<verbose>true</verbose>
 					                   
