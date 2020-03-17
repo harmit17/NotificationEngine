@@ -32,6 +32,7 @@ public class ExceptionHadler {
 
 	@ExceptionHandler(RuntimeException.class)
 	@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
+	@ResponseBody
 	public final Response<?> runTimeException(RuntimeException ex, WebRequest request) {
 		return new Response<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null, ex.getMessage(), null);
 	}
@@ -44,6 +45,7 @@ public class ExceptionHadler {
 
 	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	@ResponseBody
 	public final Response<?> argumentTypeMismatchException(MethodArgumentTypeMismatchException ex, WebRequest request) {
 		return new Response<>(HttpStatus.BAD_REQUEST.value(), null, "Only Numeric Value Allow", null);
 	}
