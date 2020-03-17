@@ -1,5 +1,6 @@
 package com.finablr.platform.notification.domain;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.Map;
 
@@ -18,7 +19,7 @@ import com.finablr.platform.notification.convert.TypeConvert;
 
 @Entity
 @Table(name = "notification_request")
-public class NotificationRequest {
+public class NotificationRequest implements Serializable {
 
 	@Id
 	@Column(name = "request_id")

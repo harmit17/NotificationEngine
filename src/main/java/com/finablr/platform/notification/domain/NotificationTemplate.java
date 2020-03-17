@@ -1,6 +1,7 @@
 
 package com.finablr.platform.notification.domain;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 import javax.persistence.Column;
@@ -12,7 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity(name="notification_template")
-public class NotificationTemplate {
+public class NotificationTemplate implements Serializable {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
