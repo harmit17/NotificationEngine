@@ -13,7 +13,6 @@ import org.springframework.jms.core.JmsTemplate;
 public class JmsConfiguration {
 
 	private static final String DEFAULT_BROKER_URL = "tcp://localhost:61616";
-	private static final String MESSAGE_QUEUE = "message_queue";
 
 	@Bean
 	public ConnectionFactory connectionFactory() {
@@ -26,7 +25,6 @@ public class JmsConfiguration {
 	public JmsTemplate jmsTemplate() {
 		JmsTemplate template = new JmsTemplate();
 		template.setConnectionFactory(connectionFactory());
-		template.setDefaultDestinationName(MESSAGE_QUEUE);
 		return template;
 	}
 }

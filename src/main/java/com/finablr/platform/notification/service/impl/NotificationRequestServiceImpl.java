@@ -14,7 +14,6 @@ import com.finablr.platform.notification.dto.AddNotificationRequestDto;
 import com.finablr.platform.notification.enumStatus.NotificationStatus;
 import com.finablr.platform.notification.exceptionhandler.model.BusinessException;
 import com.finablr.platform.notification.exceptionhandler.model.DataNotFoundException;
-import com.finablr.platform.notification.jmsconfiguration.MessageSender;
 import com.finablr.platform.notification.repository.NotificationRequestRepository;
 import com.finablr.platform.notification.repository.NotificationTemplateRepository;
 import com.finablr.platform.notification.service.NotificationRequestService;
@@ -34,9 +33,6 @@ public class NotificationRequestServiceImpl implements NotificationRequestServic
 
 	@Autowired
 	JmsTemplate jmsTemplate;
-
-	@Autowired
-	MessageSender messageSender;
 
 	@Override
 	public Long addRequest(AddNotificationRequestDto addNotificationRequestDto) {
@@ -75,7 +71,7 @@ public class NotificationRequestServiceImpl implements NotificationRequestServic
 		notificationRequest.setNotificationSubject(
 				MergePlaceHolder.replacePlaceholders(addNotificationRequestDto.getNotificationData(), templateSubject));
 		notificationRequest = notificationRequestRepository.save(notificationRequest);
-		messageSender.sendMessage(notificationRequest);
+		//jmsTemplate.convertAndSend("message_queue", notificationRequest);
 		return notificationRequest.getId();
 	}
 
