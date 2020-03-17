@@ -21,7 +21,7 @@ public class ExceptionHadler {
 	@ResponseBody
 	@ResponseStatus(code = HttpStatus.OK)
 	public final Response<?> DataNotFoundException(DataNotFoundException ex, WebRequest request) {
-		return new Response<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), null, ex.getMessage(), null);
+		return new Response<>(HttpStatus.OK.value(), null, ex.getMessage(), null);
 	}
 
 	@ExceptionHandler(BadInputException.class)
@@ -52,6 +52,7 @@ public class ExceptionHadler {
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+	@ResponseBody
 	public final Response<?> argumentTypeMismatchException(MethodArgumentNotValidException ex, WebRequest request) {
 		return new Response<>(HttpStatus.BAD_REQUEST.value(), null, "Only Numeric Value Allow", null);
 	}
