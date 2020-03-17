@@ -19,10 +19,6 @@ public class JmsConfiguration {
 	public ConnectionFactory connectionFactory() {
 		ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
 		connectionFactory.setBrokerURL(DEFAULT_BROKER_URL);
-		connectionFactory.setUserName("admin");
-		connectionFactory.setPassword("admin");
-//		connectionFactory.setTrustedPackages(Arrays.asList("com.finablr.platform.notification"));
-//		connectionFactory.setTrustAllPackages(true);
 		return connectionFactory;
 	}
 

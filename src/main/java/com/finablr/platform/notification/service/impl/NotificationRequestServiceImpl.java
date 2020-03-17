@@ -75,7 +75,7 @@ public class NotificationRequestServiceImpl implements NotificationRequestServic
 		notificationRequest.setNotificationSubject(
 				MergePlaceHolder.replacePlaceholders(addNotificationRequestDto.getNotificationData(), templateSubject));
 		notificationRequest = notificationRequestRepository.save(notificationRequest);
-		// messageSender.sendMessage(notificationRequest);
+		messageSender.sendMessage(notificationRequest);
 		return notificationRequest.getId();
 	}
 

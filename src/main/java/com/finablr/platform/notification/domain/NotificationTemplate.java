@@ -12,43 +12,43 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-@Entity(name="notification_template")
+@Entity(name = "notification_template")
 public class NotificationTemplate implements Serializable {
-	
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long templateId;
-	
-	@Column(length = 50,nullable = false,unique = true)
+
+	@Column(length = 50, nullable = false, unique = true)
 	private String templateCode;
-	
-	@Column(length = 50,nullable = false)
+
+	@Column(length = 50, nullable = false)
 	private String name;
-	
-	@Column(length = 255,nullable = false)
+
+	@Column(length = 255, nullable = false)
 	private String description;
-	
-	@Column(length = 255,nullable = false)
+
+	@Column(length = 255, nullable = false)
 	private String templateSubject;
-	
-	@Column(length = 1000,nullable = false)
+
+	@Column(length = 1000, nullable = false)
 	private String templateBody;
-	
-	@Column(precision=1, scale=0,nullable = false)
+
+	@Column(precision = 1, scale = 0, nullable = false)
 	private Integer maxRetry;
-	
-	@Column(name = "effectiveForm",nullable = false)
+
+	@Column(name = "effectiveForm", nullable = false)
 	private Instant effectiveFrom;
-	
+
 	@Column(nullable = false)
 	private Instant effectiveTo;
-	
+
 	@ManyToOne
-	@JoinColumn(name="notification_channel_id",nullable = true)
+	@JoinColumn(name = "notification_channel_id", nullable = true)
 	private NotificationChannel notificationChannel;
-	
+
 	@ManyToOne
-	@JoinColumn(name="notification_content_type_id",nullable = true)
+	@JoinColumn(name = "notification_content_type_id", nullable = true)
 	private NotificationContentType notificationContentType;
 
 	public Long getTemplateId() {
@@ -138,6 +138,6 @@ public class NotificationTemplate implements Serializable {
 
 	public void setNotificationContentType(NotificationContentType notificationContentType) {
 		this.notificationContentType = notificationContentType;
-	}	
-	
+	}
+
 }

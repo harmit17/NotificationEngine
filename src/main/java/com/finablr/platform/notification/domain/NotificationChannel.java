@@ -1,5 +1,7 @@
 package com.finablr.platform.notification.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,15 +9,15 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity(name = "notification_channel")
-public class NotificationChannel {
+public class NotificationChannel implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="channel_id")
+	@Column(name = "channel_id")
 	private Long channelId;
-	@Column(name="channel_name", nullable = false)
+	@Column(name = "channel_name", nullable = false)
 	private String channelName;
-	@Column(name = "is_disable",nullable = false)
+	@Column(name = "is_disable", nullable = false)
 	private boolean isDisable;
 
 	public Long getChannelId() {

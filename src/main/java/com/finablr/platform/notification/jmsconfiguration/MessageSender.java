@@ -1,5 +1,7 @@
 package com.finablr.platform.notification.jmsconfiguration;
 
+import java.io.Serializable;
+
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.ObjectMessage;
@@ -24,7 +26,7 @@ public class MessageSender {
 			@Override
 			public Message createMessage(Session session) throws JMSException {
 
-				ObjectMessage objectmessage = session.createObjectMessage(notificationRequest);
+				ObjectMessage objectmessage = session.createObjectMessage((Serializable) notificationRequest);
 				return objectmessage;
 			}
 		});

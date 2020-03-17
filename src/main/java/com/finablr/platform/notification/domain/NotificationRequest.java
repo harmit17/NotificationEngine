@@ -16,7 +16,6 @@ import javax.persistence.Table;
 
 import com.finablr.platform.notification.convert.TypeConvert;
 
-
 @Entity
 @Table(name = "notification_request")
 public class NotificationRequest implements Serializable {
@@ -26,15 +25,15 @@ public class NotificationRequest implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@Column(name = "notification_data",nullable = false)
+	@Column(name = "notification_data", nullable = false)
 	@Convert(converter = TypeConvert.class)
 	private Map<String, String> notificationData;
 
-	@Column(name = "receipient_details",nullable = false)
+	@Column(name = "receipient_details", nullable = false)
 	@Convert(converter = TypeConvert.class)
 	private Map<String, String> receipientDetails;
 
-	@Column(name = "retry_count",nullable = false)
+	@Column(name = "retry_count", nullable = false)
 	private Integer retryCount;
 
 	@Column(name = "notification_subject")
@@ -43,7 +42,7 @@ public class NotificationRequest implements Serializable {
 	@Column(name = "notification_body")
 	private String notificationBody;
 
-	@Column(name = "request_status",nullable = false)
+	@Column(name = "request_status", nullable = false)
 	private String status;
 
 	@Column(name = "last_delivery_attempt")
@@ -53,7 +52,7 @@ public class NotificationRequest implements Serializable {
 	private Instant requestTime;
 
 	@ManyToOne
-    @JoinColumn(name="notification_template_id",nullable = false)
+	@JoinColumn(name = "notification_template_id", nullable = false)
 	private NotificationTemplate notificationTemplate;
 
 	public Long getId() {
@@ -79,7 +78,6 @@ public class NotificationRequest implements Serializable {
 	public void setReceipientDetails(Map<String, String> receipientDetails) {
 		this.receipientDetails = receipientDetails;
 	}
-	
 
 	public Integer getRetryCount() {
 		return retryCount;

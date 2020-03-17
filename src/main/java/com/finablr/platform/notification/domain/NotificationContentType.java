@@ -1,5 +1,7 @@
 package com.finablr.platform.notification.domain;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,7 +11,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "notification_content_type")
-public class NotificationContentType {
+public class NotificationContentType implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +21,7 @@ public class NotificationContentType {
 	@Column(name = "ct_name", nullable = false)
 	private String name;
 
-	@Column(name = "is_disable",nullable = false)
+	@Column(name = "is_disable", nullable = false)
 	private boolean isDisable;
 
 	public Long getId() {
