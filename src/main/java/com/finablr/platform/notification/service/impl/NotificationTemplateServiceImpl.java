@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 import com.finablr.platform.notification.dto.AddNotificationTemplateDto;
 
 import com.finablr.platform.notification.dto.UpdateNotificationTemplateDto;
-
+import com.finablr.platform.notification.exceptionhandler.model.BusinessException;
 import com.finablr.platform.notification.exceptionhandler.model.DataNotFoundException;
 import com.finablr.platform.notification.repository.NotificationChannelRepository;
 import com.finablr.platform.notification.repository.NotificationContentTypeRepository;
@@ -159,7 +159,7 @@ public class NotificationTemplateServiceImpl implements NotificationTemplateServ
 		}
 		if (current_time.isAfter(notificationTemplate.get().getEffectiveTo())
 				|| current_time.isBefore(notificationTemplate.get().getEffectiveFrom())) {
-			throw new DataNotFoundException("Template Expired");
+			throw new BusinessException("Template Expired");
 		}
 		Map<String, String> templateData = downloadNotificationTemplateDto.getNotificationData();
 		String templateBody = notificationTemplate.get().getTemplateBody();
