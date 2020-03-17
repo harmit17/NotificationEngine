@@ -13,16 +13,11 @@ import org.springframework.jms.core.JmsTemplate;
 public class JmsConfiguration {
 
 	private static final String DEFAULT_BROKER_URL = "tcp://localhost:61616";
-	private static final String MESSAGE_QUEUE = "message_queue";
 
 	@Bean
 	public ConnectionFactory connectionFactory() {
 		ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory();
 		connectionFactory.setBrokerURL(DEFAULT_BROKER_URL);
-		connectionFactory.setUserName("admin");
-		connectionFactory.setPassword("admin");
-//		connectionFactory.setTrustedPackages(Arrays.asList("com.finablr.platform.notification"));
-//		connectionFactory.setTrustAllPackages(true);
 		return connectionFactory;
 	}
 
@@ -30,7 +25,6 @@ public class JmsConfiguration {
 	public JmsTemplate jmsTemplate() {
 		JmsTemplate template = new JmsTemplate();
 		template.setConnectionFactory(connectionFactory());
-		template.setDefaultDestinationName(MESSAGE_QUEUE);
 		return template;
 	}
 }
