@@ -62,74 +62,80 @@ public class NotificationTemplateServiceImpl implements NotificationTemplateServ
 	@Override
 	public Long addNotificationTemplate(AddNotificationTemplateDto addNotificationTemplateDto) {
 
-		Optional<NotificationChannel> notificationChannel = notificationChannelRepository
-				.findById(addNotificationTemplateDto.getNotificationChannelId());
-		Optional<NotificationContentType> notificationContentType = notificationContentTypeRepository
-				.findById(addNotificationTemplateDto.getNotificationContentTypeId());
+			Optional<NotificationChannel> notificationChannel = notificationChannelRepository.findById(addNotificationTemplateDto.getNotificationChannelId());
+			Optional<NotificationContentType> notificationContentType = notificationContentTypeRepository.findById(addNotificationTemplateDto.getNotificationContentTypeId());
+	
+			if (!notificationChannel.isPresent()) 
+			{
+				throw new DataNotFoundException("Notification Channel is not Present for Given ID "+ addNotificationTemplateDto.getNotificationChannelId());
+			}
+	
+			if (!notificationContentType.isPresent()) 
+			{
+				throw new DataNotFoundException("Notification Content Type is not Present for Given ID "+ addNotificationTemplateDto.getNotificationContentTypeId());
+			}
+	
+			if (notificationChannel.get().isDisable()) 
+			{
+				throw new DataNotFoundException("NotificationChannel "+notificationChannel.get().getChannelName()+" Is Not enable");
+	
+			}
+	
+			if (notificationContentType.get().isDisable()) 
+			{
+				throw new DataNotFoundException("NotificationContentType "+notificationContentType.get().getName()+" Is Not enable");
+			}
+	
+			checkFutureDatesValidation(addNotificationTemplateDto.getEffectiveFrom(),addNotificationTemplateDto.getEffectiveTo());
+			
+			checkToDateFromDateValidation(addNotificationTemplateDto.getEffectiveFrom(),addNotificationTemplateDto.getEffectiveTo());
+	
+			if (notificationTemplateRepository.findByTemplateCode(addNotificationTemplateDto.getTemplateCode()) != null) 
+			{
+				throw new DataNotFoundException("Template Code Already Exists");
+			}
+	
+			if ((notificationChannel.get().getChannelName().equalsIgnoreCase("WhatsApp") && notificationContentType.get().getName().equalsIgnoreCase("html"))) 
+			{
+				throw new DataNotFoundException("Channel is not competable with content type");
+			}
+	
+			NotificationTemplate notificationTemplate=new NotificationTemplate();
+			notificationTemplate.setTemplateCode(addNotificationTemplateDto.getTemplateCode());
+			notificationTemplate.setName(addNotificationTemplateDto.getName());
+			notificationTemplate.setDescription(addNotificationTemplateDto.getDescription());
+			notificationTemplate.setTemplateSubject(addNotificationTemplateDto.getTemplateSubject());
+			notificationTemplate.setTemplateBody(addNotificationTemplateDto.getTemplateBody());
+			notificationTemplate.setMaxRetry(addNotificationTemplateDto.getMaxRetry());
+			notificationTemplate.setEffectiveFrom(addNotificationTemplateDto.getEffectiveFrom());
+			notificationTemplate.setEffectiveTo(addNotificationTemplateDto.getEffectiveTo());
+			notificationTemplate.setNotificationChannel(notificationChannel.get());
+			notificationTemplate.setNotificationContentType(notificationContentType.get());
+	
+			return (notificationTemplateRepository.save(notificationTemplate)).getTemplateId();
 
-		if (!notificationChannel.isPresent()) {
-			throw new DataNotFoundException("Notification Channel is not Present for Given ID "
-					+ addNotificationTemplateDto.getNotificationChannelId());
-		}
-
-		if (!notificationContentType.isPresent()) {
-			throw new DataNotFoundException("Notification Content Type is not Present for Given ID "
-					+ addNotificationTemplateDto.getNotificationContentTypeId());
-		}
-
-		if (notificationChannel.get().isDisable()) {
-			throw new DataNotFoundException("NotificationChannelName Is Not enable");
-
-		}
-
-		if (notificationContentType.get().isDisable()) {
-			throw new DataNotFoundException("NotificationContentType Is Not enable");
-		}
-
-		checkFutureDatesValidation(addNotificationTemplateDto.getEffectiveFrom(),
-				addNotificationTemplateDto.getEffectiveTo());
-
-		checkToDateFromDateValidation(addNotificationTemplateDto.getEffectiveFrom(),
-				addNotificationTemplateDto.getEffectiveTo());
-
-		if (notificationTemplateRepository.findByTemplateCode(addNotificationTemplateDto.getTemplateCode()) != null) {
-			throw new DataNotFoundException("Template Code Already Exists");
-		}
-
-		if ((notificationChannel.get().getChannelName().equalsIgnoreCase("WhatsApp")
-				&& notificationContentType.get().getName().equalsIgnoreCase("html"))) {
-			throw new DataNotFoundException("Channel is not competable with content type");
-		}
-
-		NotificationTemplate notificationTemplate = modelMapper.map(addNotificationTemplateDto,
-				NotificationTemplate.class);
-		notificationTemplate.setNotificationChannel(notificationChannel.get());
-		notificationTemplate.setNotificationContentType(notificationContentType.get());
-
-		return (notificationTemplateRepository.save(notificationTemplate)).getTemplateId();
 	}
 
 	@Override
 	public Long updateNotificationTemplate(UpdateNotificationTemplateDto updateNotificationTemplateDto) {
 
-		Optional<NotificationTemplate> notificationTemplate = notificationTemplateRepository
-				.findById(updateNotificationTemplateDto.getTemplateId());
-		if (!notificationTemplate.isPresent()) {
-			throw new DataNotFoundException("Template Not Found");
-		}
+			Optional<NotificationTemplate> notificationTemplate = notificationTemplateRepository.findById(updateNotificationTemplateDto.getTemplateId());
+			if (!notificationTemplate.isPresent()) 
+			{
+				throw new DataNotFoundException("Template Not Found");
+			}
+	
+			checkFutureDatesValidation(updateNotificationTemplateDto.getEffectiveFrom(),updateNotificationTemplateDto.getEffectiveTo());
+			checkToDateFromDateValidation(updateNotificationTemplateDto.getEffectiveFrom(),updateNotificationTemplateDto.getEffectiveTo());
+	
+			notificationTemplate.get().setTemplateSubject(updateNotificationTemplateDto.getTemplateSubject());
+			notificationTemplate.get().setTemplateBody(updateNotificationTemplateDto.getTemplateBody());
+			notificationTemplate.get().setEffectiveFrom(updateNotificationTemplateDto.getEffectiveFrom());
+			notificationTemplate.get().setEffectiveTo(updateNotificationTemplateDto.getEffectiveTo());
+	
+			notificationTemplateRepository.save(notificationTemplate.get());
+			return notificationTemplate.get().getTemplateId();
 
-		checkFutureDatesValidation(updateNotificationTemplateDto.getEffectiveFrom(),
-				updateNotificationTemplateDto.getEffectiveTo());
-		checkToDateFromDateValidation(updateNotificationTemplateDto.getEffectiveFrom(),
-				updateNotificationTemplateDto.getEffectiveTo());
-
-		notificationTemplate.get().setTemplateSubject(updateNotificationTemplateDto.getTemplateSubject());
-		notificationTemplate.get().setTemplateBody(updateNotificationTemplateDto.getTemplateBody());
-		notificationTemplate.get().setEffectiveFrom(updateNotificationTemplateDto.getEffectiveFrom());
-		notificationTemplate.get().setEffectiveTo(updateNotificationTemplateDto.getEffectiveTo());
-
-		notificationTemplateRepository.save(notificationTemplate.get());
-		return notificationTemplate.get().getTemplateId();
 	}
 
 	@SuppressWarnings("null")
