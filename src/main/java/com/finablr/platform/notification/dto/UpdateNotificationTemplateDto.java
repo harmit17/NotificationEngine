@@ -2,7 +2,7 @@ package com.finablr.platform.notification.dto;
 
 import java.time.Instant;
 
-import com.sun.istack.NotNull;
+import javax.validation.constraints.NotNull;
 
 public class UpdateNotificationTemplateDto {
 	
