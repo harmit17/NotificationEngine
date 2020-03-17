@@ -17,14 +17,13 @@ public class MessageSender {
 
 	@Autowired
 	JmsTemplate jmsTemplate;
-	
-	public void sendMessage(final NotificationRequest notificationRequest)
-	{
+
+	public void sendMessage(final NotificationRequest notificationRequest) {
 		jmsTemplate.send(new MessageCreator() {
-			
+
 			@Override
 			public Message createMessage(Session session) throws JMSException {
-				
+
 				ObjectMessage objectmessage = session.createObjectMessage(notificationRequest);
 				return objectmessage;
 			}

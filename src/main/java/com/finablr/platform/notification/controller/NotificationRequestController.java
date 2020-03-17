@@ -21,20 +21,22 @@ public class NotificationRequestController {
 	@Autowired
 	public NotificationRequestService notificationRequestService;
 
-	/*
-	 * Add notification request controller method
-	 */
 	@PostMapping("/api/v1/notification-requests")
 	public Response<Long> addNotificationRequest(@Valid @RequestBody AddNotificationRequestDto notificationDto) {
-		return new Response<Long>(HttpStatus.OK.value(), notificationRequestService.addRequest(notificationDto),"Successfully Add Request", null);
+		return new Response<Long>(HttpStatus.OK.value(), notificationRequestService.addRequest(notificationDto),
+				"Successfully Add Request", null);
 	}
 
-	/*
-	 * get notification status controller method
-	 */
 	@GetMapping("/api/v1/notification-requests/status/{id}")
 	public Response<String> getNotificationStatus(@NotBlank @PathVariable Long id) {
-		return new Response<String>(HttpStatus.OK.value(), notificationRequestService.getStatus(id), "Successfully retrive", null);
+		return new Response<String>(HttpStatus.OK.value(), notificationRequestService.getStatus(id),
+				"Successfully retrive", null);
 	}
+
+//	@ExceptionHandler(MethodArgumentTypeMismatchException.class)
+//	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
+//	public final Response<?> argumentTypeMismatchException(MethodArgumentTypeMismatchException ex, WebRequest request) {
+//		return new Response<>(HttpStatus.BAD_REQUEST.value(), null, "Only Numeric Value Allow", null);
+//	}
 
 }

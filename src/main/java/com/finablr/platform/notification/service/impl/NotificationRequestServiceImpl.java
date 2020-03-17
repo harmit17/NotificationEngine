@@ -25,59 +25,57 @@ public class NotificationRequestServiceImpl implements NotificationRequestServic
 
 	@Autowired
 	private NotificationRequestRepository notificationRequestRepository;
-	
+
 	@Autowired
 	private NotificationTemplateRepository notificationTemplateRepository;
 
 	@Autowired
 	private ModelMapper modelmapper;
-	
+
 	@Autowired
 	JmsTemplate jmsTemplate;
-	
+
 	@Autowired
 	MessageSender messageSender;
 
 	@Override
 	public Long addRequest(AddNotificationRequestDto addNotificationRequestDto) {
-		
-		Instant time = Instant.now();
-		
-		if(addNotificationRequestDto.getReceipientDetails().isEmpty())
-			throw new DataNotFoundException("Receipient Detail can't be null");
-			
-		NotificationTemplate notificationTemplate = notificationTemplateRepository.findByTemplateCode(addNotificationRequestDto.getTemplateCode());
-		
-		if(notificationTemplate == null)
-			throw new DataNotFoundException("Template Not Found");
-		
-		if(time.isBefore(notificationTemplate.getEffectiveFrom()) || time.isAfter(notificationTemplate.getEffectiveTo()))
-			throw new BusinessException("Template Not available");
-		
-		if(notificationTemplate.getNotificationChannel().isDisable())
-			throw new BusinessException("Template Not Found");
-		
 
-		if(notificationTemplate.getNotificationContentType().isDisable())
+		Instant time = Instant.now();
+
+		if (addNotificationRequestDto.getReceipientDetails().isEmpty())
+			throw new DataNotFoundException("Receipient Detail can't be null");
+
+		NotificationTemplate notificationTemplate = notificationTemplateRepository
+				.findByTemplateCode(addNotificationRequestDto.getTemplateCode());
+
+		if (notificationTemplate == null)
+			throw new DataNotFoundException("Template Not Found");
+
+		if (time.isBefore(notificationTemplate.getEffectiveFrom())
+				|| time.isAfter(notificationTemplate.getEffectiveTo()))
+			throw new BusinessException("Template Not available");
+
+		if (notificationTemplate.getNotificationChannel().isDisable())
 			throw new BusinessException("Template Not Found");
-		
-		
+
+		if (notificationTemplate.getNotificationContentType().isDisable())
+			throw new BusinessException("Template Not Found");
+
 		NotificationRequest notificationRequest = modelmapper.map(addNotificationRequestDto, NotificationRequest.class);
 		notificationRequest.setRetryCount(0);
 		notificationRequest.setStatus(NotificationStatus.PENDING.name());
 		notificationRequest.setRequestTime(Instant.now());
 		notificationRequest.setTemplateId(notificationTemplate);
+		notificationRequest.setLastDeliveryAttempt(null);
 		String templateBody = notificationTemplate.getTemplateBody();
 		String templateSubject = notificationTemplate.getTemplateSubject();
-		
-		notificationTemplate.setTemplateBody(MergePlaceHolder.replacePlaceholders(addNotificationRequestDto.getNotificationData(), templateBody));
-		notificationRequest.setNotificationBody(notificationTemplate.getTemplateBody());
-		
-		notificationTemplate.setTemplateBody(MergePlaceHolder.replacePlaceholders(addNotificationRequestDto.getNotificationData(), templateSubject));
-		notificationRequest.setNotificationSubject(notificationTemplate.getTemplateSubject());
-		notificationRequestRepository.save(notificationRequest);
-		
-		//messageSender.sendMessage(notificationRequest);
+		notificationRequest.setNotificationBody(
+				MergePlaceHolder.replacePlaceholders(addNotificationRequestDto.getNotificationData(), templateBody));
+		notificationRequest.setNotificationSubject(
+				MergePlaceHolder.replacePlaceholders(addNotificationRequestDto.getNotificationData(), templateSubject));
+		notificationRequest = notificationRequestRepository.save(notificationRequest);
+		// messageSender.sendMessage(notificationRequest);
 		return notificationRequest.getId();
 	}
 
