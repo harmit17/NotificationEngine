@@ -4,7 +4,7 @@ import com.finablr.platform.notification.dto.AddNotificationRequestDto;
 
 public interface NotificationRequestService {
 	
-	void addRequest(AddNotificationRequestDto notificationDto);
+	Long addRequest(AddNotificationRequestDto notificationDto);
 
 	String getStatus(Long id);
 	

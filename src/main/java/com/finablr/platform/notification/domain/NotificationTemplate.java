@@ -1,5 +1,7 @@
+
 package com.finablr.platform.notification.domain;
 
+import java.io.Serializable;
 import java.time.Instant;
 
 import javax.persistence.Column;
@@ -7,52 +9,57 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
-@Entity(name="notification_template")
-public class NotificationTemplate {
-	
+@Entity(name = "notification_template")
+public class NotificationTemplate implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name="template_id")
-	private Long id;
-	
-	@Column(length = 50,nullable = false,unique = true)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long templateId;
+
+	@Column(length = 50, nullable = false, unique = true)
 	private String templateCode;
-	
-	@Column(length = 50,nullable = false)
+
+	@Column(length = 50, nullable = false)
 	private String name;
-	
-	@Column(length = 255,nullable = false)
+
+	@Column(length = 255, nullable = false)
 	private String description;
-	
-	@Column(length = 255,nullable = false)
+
+	@Column(length = 255, nullable = false)
 	private String templateSubject;
-	
-	@Column(length = 1000,nullable = false)
+
+	@Column(length = 1000, nullable = false)
 	private String templateBody;
-	
-	@Column(precision=1, scale=0,nullable = false)
+
+	@Column(precision = 1, scale = 0, nullable = false)
 	private Integer maxRetry;
-	
-	@Column(name="effectiveForm",nullable = false)
+
+	@Column(name = "effectiveForm", nullable = false)
 	private Instant effectiveFrom;
-	
+
+	@Column(nullable = false)
 	private Instant effectiveTo;
-	
-	@Column(nullable = false)
-	private Long notificationChannelId;
-	
-	@Column(nullable = false)
-	private Long notificationContentTypeId;
 
-	
+	@ManyToOne
+	@JoinColumn(name = "notification_channel_id", nullable = true)
+	private NotificationChannel notificationChannel;
 
-	public Long getId() {
-		return id;
+	@ManyToOne
+	@JoinColumn(name = "notification_content_type_id", nullable = true)
+	private NotificationContentType notificationContentType;
+
+	public Long getTemplateId() {
+		return templateId;
+
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setTemplateId(Long templateId) {
+		this.templateId = templateId;
 	}
 
 	public String getTemplateCode() {
@@ -103,13 +110,12 @@ public class NotificationTemplate {
 		this.maxRetry = maxRetry;
 	}
 
-
 	public Instant getEffectiveFrom() {
 		return effectiveFrom;
 	}
 
-	public void setEffectiveFrom(Instant effectiveFrom) {
-		this.effectiveFrom = effectiveFrom;
+	public void setEffectiveFrom(Instant effectiveForm) {
+		this.effectiveFrom = effectiveForm;
 	}
 
 	public Instant getEffectiveTo() {
@@ -120,21 +126,20 @@ public class NotificationTemplate {
 		this.effectiveTo = effectiveTo;
 	}
 
-	public Long getNotificationChannelId() {
-		return notificationChannelId;
+	public NotificationChannel getNotificationChannel() {
+		return notificationChannel;
 	}
 
-	public void setNotificationChannelId(Long notificationChannelId) {
-		this.notificationChannelId = notificationChannelId;
+	public void setNotificationChannel(NotificationChannel notificationChannel) {
+		this.notificationChannel = notificationChannel;
 	}
 
-	public Long getNotificationContentTypeId() {
-		return notificationContentTypeId;
+	public NotificationContentType getNotificationContentType() {
+		return notificationContentType;
 	}
 
-	public void setNotificationContentTypeId(Long notificationContentTypeId) {
-		this.notificationContentTypeId = notificationContentTypeId;
+	public void setNotificationContentType(NotificationContentType notificationContentType) {
+		this.notificationContentType = notificationContentType;
 	}
-	
-	
+
 }
