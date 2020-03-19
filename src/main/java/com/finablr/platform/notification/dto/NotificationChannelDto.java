@@ -1,7 +1,9 @@
 package com.finablr.platform.notification.dto;
 
+import javax.validation.constraints.NotNull;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.sun.istack.NotNull;
+
 
 public class NotificationChannelDto {
 
@@ -28,7 +30,7 @@ public class NotificationChannelDto {
 		this.channelName = channelName;
 	}
 
-	public boolean isDisable() {
+	public boolean getisDisable() {
 		return isDisable;
 	}
 
