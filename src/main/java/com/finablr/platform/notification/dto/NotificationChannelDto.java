@@ -1,9 +1,15 @@
 package com.finablr.platform.notification.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sun.istack.NotNull;
+
 public class NotificationChannelDto {
 
+	@NotNull @JsonProperty("channelId")
 	private Long channelId;
+	@NotNull @JsonProperty("channelName")
 	private String channelName;
+	@NotNull @JsonProperty("isDisable")
 	private boolean isDisable;
 
 	public Long getChannelId() {
